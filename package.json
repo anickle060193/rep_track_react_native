@@ -8,24 +8,31 @@
     "eject": "react-native-scripts-ts eject",
     "android": "react-native-scripts-ts android",
     "ios": "react-native-scripts-ts ios",
-    "test": "node node_modules/jest/bin/jest.js"
+    "test": "node node_modules/jest/bin/jest.js",
+    "postinstall": "react-native link"
   },
   "devDependencies": {
-    "react-native-scripts-ts": "1.11.3",
     "@types/jest": "^22.0.0",
     "@types/react": "^16.0.38",
     "@types/react-native": "^0.52.0",
+    "@types/react-native-material-kit": "^0.5.1",
+    "@types/react-native-vector-icons": "^4.4.3",
+    "@types/react-navigation": "^1.2.1",
     "@types/react-test-renderer": "^16.0.0",
-    "ts-jest": "^22.0.4",
     "jest-expo": "25.0.0",
+    "react-native-scripts-ts": "1.11.3",
     "react-native-typescript-transformer": "^1.2.3",
     "react-test-renderer": "16.2.0",
+    "ts-jest": "^22.0.4",
     "tslib": "^1.7.1",
     "typescript": "^2.7.0"
   },
   "dependencies": {
     "expo": "^25.0.0",
     "react": "16.2.0",
-    "react-native": "0.52.0"
+    "react-native": "0.52.0",
+    "react-native-material-kit": "^0.5.1",
+    "react-native-vector-icons": "^4.5.0",
+    "react-navigation": "^1.5.1"
   }
 }

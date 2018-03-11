@@ -1,17 +1,33 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "es2015",
     "outDir": "build/dist",
+    "module": "es2015",
+    "target": "es5",
+    "lib": [
+      "dom",
+      "es2015",
+      "es2016"
+    ],
     "sourceMap": true,
-    "experimentalDecorators": true,
+    "allowJs": true,
     "jsx": "react-native",
-    "lib": ["dom", "es2015", "es2016"],
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
-    "noEmitHelpers": true,
-    "importHelpers": true,
-    "strict": true,
-    "noImplicitReturns": true
-  }
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": true
+  },
+  "exclude": [
+    "node_modules",
+    "build",
+    "scripts",
+    "acceptance-tests",
+    "webpack",
+    "jest",
+    "src/setupTests.ts"
+  ]
 }

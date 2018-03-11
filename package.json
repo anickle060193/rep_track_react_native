@@ -2,6 +2,14 @@
   "name": "rep_track",
   "version": "0.1.0",
   "private": true,
+  "main": "./node_modules/react-native-scripts-ts/build/bin/crna-entry.js",
+  "scripts": {
+    "start": "react-native-scripts-ts start",
+    "eject": "react-native-scripts-ts eject",
+    "android": "react-native-scripts-ts android",
+    "ios": "react-native-scripts-ts ios",
+    "test": "node node_modules/jest/bin/jest.js"
+  },
   "devDependencies": {
     "react-native-scripts-ts": "1.11.3",
     "@types/jest": "^22.0.0",
@@ -14,14 +22,6 @@
     "react-test-renderer": "16.2.0",
     "tslib": "^1.7.1",
     "typescript": "^2.7.0"
-  },
-  "main": "./node_modules/react-native-scripts-ts/build/bin/crna-entry.js",
-  "scripts": {
-    "start": "react-native-scripts-ts start",
-    "eject": "react-native-scripts-ts eject",
-    "android": "react-native-scripts-ts android",
-    "ios": "react-native-scripts-ts ios",
-    "test": "node node_modules/jest/bin/jest.js"
   },
   "dependencies": {
     "expo": "^25.0.0",

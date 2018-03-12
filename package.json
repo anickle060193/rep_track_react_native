@@ -21,6 +21,7 @@
     "@types/react-redux": "^5.0.15",
     "@types/react-test-renderer": "^16.0.0",
     "@types/redux-logger": "^3.0.5",
+    "@types/uuid": "^3.4.3",
     "jest-expo": "25.0.0",
     "react-native-scripts-ts": "1.11.3",
     "react-native-typescript-transformer": "^1.2.3",
@@ -33,13 +34,16 @@
     "expo": "^25.0.0",
     "react": "16.2.0",
     "react-native": "0.52.0",
+    "react-native-action-button": "^2.8.4",
     "react-native-material-kit": "^0.5.1",
+    "react-native-swipe-list-view": "^1.0.6",
     "react-native-vector-icons": "^4.5.0",
     "react-navigation": "^1.5.1",
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "typescript-fsa": "^2.5.0",
-    "typescript-fsa-reducers": "^0.4.5"
+    "typescript-fsa-reducers": "^0.4.5",
+    "uuid": "^3.2.1"
   }
 }

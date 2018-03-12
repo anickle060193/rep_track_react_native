@@ -1,19 +1,30 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Button, StyleSheet, FlatList, TouchableNativeFeedback } from 'react-native';
+import { View, Text, StyleSheet, TouchableNativeFeedback } from 'react-native';
 import { NavigationInjectedProps, NavigationScreenOptions } from 'react-navigation';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import ActionButton from 'react-native-action-button';
+import { MKColor } from 'react-native-material-kit';
+import { SwipeListView, RowsMap } from 'react-native-swipe-list-view';
+
+import { removeWorkout } from '@store/reducers/workouts';
 
 import { Routes } from '@utils/routes';
-import { Workout } from '@utils/workout';
+import { Workout, WorkoutsMap, workoutsMapToArray } from '@utils/workout';
 
 interface PropsFromState
 {
-  workouts: Workout[];
+  workouts: WorkoutsMap;
+}
+
+interface PropsFromDispatch
+{
+  removeWorkout: typeof removeWorkout;
 }
 
 type OwnProps = NavigationInjectedProps;
 
-type Props = PropsFromState & OwnProps;
+type Props = PropsFromState & PropsFromDispatch & OwnProps;
 
 class Home extends React.Component<Props>
 {
@@ -24,16 +35,30 @@ class Home extends React.Component<Props>
   {
     return (
       <View style={styles.column}>
-        <FlatList
+        <SwipeListView
           style={styles.workoutsList}
-          data={this.props.workouts}
-          keyExtractor={( workout: Workout ) => workout.date.toString()}
-          renderItem={( { item } ) => <WorkoutListItem workout={item} />}
+          useFlatList={true}
+          stopLeftSwipe={0}
+          rightOpenValue={-200}
+          closeOnRowBeginSwipe={true}
+          closeOnRowPress={true}
+          closeOnScroll={true}
+          data={workoutsMapToArray( this.props.workouts )}
+          keyExtractor={( workout: Workout ) => workout.id}
+          renderItem={( { item: workout } ) => <WorkoutListItem workout={workout} />}
+          renderHiddenItem={( { item: workout } ) => (
+            <View style={styles.workListItemSwipeBack}>
+              <Icon style={styles.workoutListItemDelete} name="delete" />
+            </View>
+          )}
+          onRowOpen={this.onRowOpen}
         />
-        <Button
-          title="New Workout"
+        <ActionButton
           onPress={this.onNewWorkoutPress}
-        />
+          buttonColor={MKColor.DeepOrange}
+        >
+          <Icon name="add" />
+        </ActionButton>
       </View>
     );
   }
@@ -42,12 +67,27 @@ class Home extends React.Component<Props>
   {
     this.props.navigation.navigate( Routes.NewWorkout );
   }
+
+  private onRowOpen = ( workoutId: string, rows: RowsMap ) =>
+  {
+    rows[ workoutId ].closeRow();
+    this.props.removeWorkout( workoutId );
+  }
 }
 
 const WorkoutListItem: React.SFC<{ workout: Workout }> = ( { workout } ) => (
   <TouchableNativeFeedback background={TouchableNativeFeedback.SelectableBackground()}>
     <View style={styles.workoutListItem}>
-      <Text>{workout.name}</Text>
+      <View style={styles.workoutListItemLine}>
+        <Text style={styles.workoutListItemTitle}>
+          {workout.name} - {workout.date.toDateString()}
+        </Text>
+      </View>
+      <View style={styles.workoutListItemLine}>
+        <Text style={styles.workoutListItemSubtitle}>
+          Sets: {workout.sets}  -  Reps: {workout.reps}  -  Weight: {workout.weight}lbs
+        </Text>
+      </View>
     </View>
   </TouchableNativeFeedback>
 );
@@ -61,15 +101,40 @@ const styles = StyleSheet.create( {
     flex: 1
   },
   workoutListItem: {
-    height: 40,
-    padding: 8
+    padding: 16,
+    backgroundColor: 'white',
+    borderBottomColor: 'lightgray',
+    borderBottomWidth: 1
+  },
+  workoutListItemLine: {
+    flexDirection: 'row'
+  },
+  workoutListItemTitle: {
+    fontSize: 22
+  },
+  workoutListItemSubtitle: {
+    fontSize: 16
+  },
+  workListItemSwipeBack: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    backgroundColor: 'red'
+  },
+  workoutListItemDelete: {
+    width: 75,
+    fontSize: 36,
+    textAlign: 'center',
+    color: 'white'
   }
 } );
 
-export default connect<PropsFromState, {}, OwnProps, RootState>(
+export default connect<PropsFromState, PropsFromDispatch, OwnProps, RootState>(
   ( state ) => ( {
     workouts: state.workouts.workouts
   } ),
   {
+    removeWorkout
   }
 )( Home );

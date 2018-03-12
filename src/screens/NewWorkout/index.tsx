@@ -4,6 +4,7 @@ import { View, TouchableNativeFeedback, StyleSheet, Button, Keyboard } from 'rea
 import { NavigationInjectedProps, NavigationScreenOptions } from 'react-navigation';
 import { MKTextField, MKColor } from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import uuid from 'uuid/v4';
 
 import { addWorkout } from '@store/reducers/workouts';
 
@@ -237,6 +238,7 @@ class NewWorkout extends React.Component<Props, State>
     let { name, sets, reps, weight } = this.state;
 
     this.props.addWorkout( {
+      id: uuid(),
       date: new Date(),
       name,
       sets,

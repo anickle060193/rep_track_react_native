@@ -1,14 +1,22 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { View, TouchableNativeFeedback, StyleSheet, Button, Keyboard } from 'react-native';
 import { NavigationInjectedProps, NavigationScreenOptions } from 'react-navigation';
 import { MKTextField, MKColor } from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { Workout } from '@utils/workout';
+import { addWorkout } from '@store/reducers/workouts';
 
 const WHITESPACE_RE = /^[\s]*$/;
 
-type Props = NavigationInjectedProps;
+interface PropsFromDispatch
+{
+  addWorkout: typeof addWorkout;
+}
+
+type OwnProps = NavigationInjectedProps;
+
+type Props = PropsFromDispatch & OwnProps;
 
 interface State
 {
@@ -18,7 +26,7 @@ interface State
   weight: number;
 }
 
-export default class NewWorkout extends React.Component<Props, State>
+class NewWorkout extends React.Component<Props, State>
 {
   static navigationOptions: NavigationScreenOptions = {
     title: 'New Workout'
@@ -228,14 +236,14 @@ export default class NewWorkout extends React.Component<Props, State>
 
     let { name, sets, reps, weight } = this.state;
 
-    let workout: Workout = {
+    this.props.addWorkout( {
       date: new Date(),
       name,
       sets,
       reps,
       weight
-    };
-    console.log( 'NEW WORKOUT:', workout );
+    } );
+
     this.props.navigation.goBack();
   }
 }
@@ -270,3 +278,10 @@ const styles = StyleSheet.create( {
     color: MKColor.Grey
   }
 } );
+
+export default connect<{}, PropsFromDispatch, OwnProps, RootState>(
+  ( state ) => ( {} ),
+  {
+    addWorkout
+  }
+)( NewWorkout );

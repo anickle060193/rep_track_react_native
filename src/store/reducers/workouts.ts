@@ -9,7 +9,10 @@ export interface State
 }
 
 const initialState: State = {
-  workouts: []
+  workouts: [
+    { name: 'Testing', date: new Date(), sets: 1, reps: 1, weight: 120 },
+    { name: 'Testing 2', date: new Date( 0 ), sets: 123, reps: 12345, weight: 134520 }
+  ]
 };
 
 const actionCreator = actionCreatorFactory( 'workouts' );

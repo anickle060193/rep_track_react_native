@@ -18,7 +18,7 @@ const RootStack = StackNavigator(
     initialRouteName: Routes.Workouts,
 
     navigationOptions: {
-      title: 'Rep Tracker',
+      title: 'Rep Tracker' + ( __DEV__ ? new Date().toTimeString() : '' ),
       headerStyle: {
         backgroundColor: '#f4511e'
       },

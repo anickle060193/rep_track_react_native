@@ -1,12 +1,21 @@
 import * as React from 'react';
-import { View, Text, Button } from 'react-native';
+import { connect } from 'react-redux';
+import { View, Text, Button, StyleSheet, FlatList, TouchableNativeFeedback } from 'react-native';
 import { NavigationInjectedProps, NavigationScreenOptions } from 'react-navigation';
 
 import { Routes } from '@utils/routes';
+import { Workout } from '@utils/workout';
 
-type Props = NavigationInjectedProps;
+interface PropsFromState
+{
+  workouts: Workout[];
+}
 
-export default class Home extends React.Component<Props>
+type OwnProps = NavigationInjectedProps;
+
+type Props = PropsFromState & OwnProps;
+
+class Home extends React.Component<Props>
 {
   static navigationOptions: NavigationScreenOptions = {
   };
@@ -14,8 +23,13 @@ export default class Home extends React.Component<Props>
   render()
   {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Workouts</Text>
+      <View style={styles.column}>
+        <FlatList
+          style={styles.workoutsList}
+          data={this.props.workouts}
+          keyExtractor={( workout: Workout ) => workout.date.toString()}
+          renderItem={( { item } ) => <WorkoutListItem workout={item} />}
+        />
         <Button
           title="New Workout"
           onPress={this.onNewWorkoutPress}
@@ -29,3 +43,33 @@ export default class Home extends React.Component<Props>
     this.props.navigation.navigate( Routes.NewWorkout );
   }
 }
+
+const WorkoutListItem: React.SFC<{ workout: Workout }> = ( { workout } ) => (
+  <TouchableNativeFeedback background={TouchableNativeFeedback.SelectableBackground()}>
+    <View style={styles.workoutListItem}>
+      <Text>{workout.name}</Text>
+    </View>
+  </TouchableNativeFeedback>
+);
+
+const styles = StyleSheet.create( {
+  column: {
+    flexDirection: 'column',
+    flex: 1
+  },
+  workoutsList: {
+    flex: 1
+  },
+  workoutListItem: {
+    height: 40,
+    padding: 8
+  }
+} );
+
+export default connect<PropsFromState, {}, OwnProps, RootState>(
+  ( state ) => ( {
+    workouts: state.workouts.workouts
+  } ),
+  {
+  }
+)( Home );

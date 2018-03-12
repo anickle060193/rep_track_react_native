@@ -240,10 +240,14 @@ class NewWorkout extends React.Component<Props, State>
     this.props.addWorkout( {
       id: uuid(),
       date: new Date(),
-      name,
-      sets,
-      reps,
-      weight
+      exercises: [
+        {
+          name,
+          sets,
+          reps,
+          weight
+        }
+      ]
     } );
 
     this.props.navigation.goBack();

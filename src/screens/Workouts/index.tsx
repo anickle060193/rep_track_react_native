@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, StyleSheet, TouchableNativeFeedback } from 'react-native';
-import { NavigationInjectedProps, NavigationScreenOptions } from 'react-navigation';
+import { NavigationScreenOptions, NavigationScreenProps } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ActionButton from 'react-native-action-button';
 import { MKColor } from 'react-native-material-kit';
@@ -10,7 +10,7 @@ import uuid from 'uuid/v4';
 
 import { removeWorkout, addWorkout } from '@store/reducers/workouts';
 
-import { Routes } from '@utils/routes';
+import { Routes, createParams } from '@utils/routes';
 import { Workout, WorkoutsMap, workoutsMapToArray } from '@utils/workout';
 
 interface PropsFromState
@@ -24,7 +24,7 @@ interface PropsFromDispatch
   removeWorkout: typeof removeWorkout;
 }
 
-type OwnProps = NavigationInjectedProps;
+type OwnProps = NavigationScreenProps;
 
 type Props = PropsFromState & PropsFromDispatch & OwnProps;
 
@@ -54,8 +54,8 @@ class Home extends React.Component<Props>
           renderItem={( { item: workout } ) => (
             <WorkoutListItem
               workout={workout}
-              onPress={this.onWorkoutPress}
-              onLongPress={this.onWorkoutLongPress}
+              onPress={() => this.onWorkoutPress( workout )}
+              onLongPress={() => this.onWorkoutLongPress( workout )}
             />
           )}
           renderHiddenItem={( { item: workout } ) => (
@@ -88,6 +88,7 @@ class Home extends React.Component<Props>
 
   private onWorkoutPress = ( workout: Workout ) =>
   {
+    this.props.navigation.navigate( Routes.Workout, createParams( { route: Routes.Workout, workout } ) );
   }
 
   private onWorkoutLongPress = ( workout: Workout ) =>
@@ -95,33 +96,25 @@ class Home extends React.Component<Props>
     this.props.addWorkout( {
       ...workout,
       id: uuid(),
-      date: new Date(),
-      name: workout.name + ' - Copy'
+      date: new Date()
     } );
   }
 }
 
 const WorkoutListItem: React.SFC<{
   workout: Workout;
-  onPress: ( workout: Workout ) => void;
-  onLongPress: ( workout: Workout ) => void;
+  onPress: () => void;
+  onLongPress: () => void;
 }> = ( { workout, onPress, onLongPress } ) => (
   <TouchableNativeFeedback
     background={TouchableNativeFeedback.SelectableBackground()}
-    onPress={() => onPress( workout )}
-    onLongPress={() => onLongPress( workout )}
+    onPress={onPress}
+    onLongPress={onLongPress}
   >
     <View style={styles.workoutListItem}>
-      <View style={styles.workoutListItemLine}>
-        <Text style={styles.workoutListItemTitle}>
-          {workout.date.toDateString()} - {workout.name}
-        </Text>
-      </View>
-      <View style={styles.workoutListItemLine}>
-        <Text style={styles.workoutListItemSubtitle}>
-          Sets: {workout.sets}  -  Reps: {workout.reps}  -  Weight: {workout.weight}lbs
-        </Text>
-      </View>
+      <Text style={styles.workoutListItemTitle}>
+        {workout.date.toDateString()}
+      </Text>
     </View>
   </TouchableNativeFeedback>
 );
@@ -140,14 +133,8 @@ const styles = StyleSheet.create( {
     borderBottomColor: 'lightgray',
     borderBottomWidth: 1
   },
-  workoutListItemLine: {
-    flexDirection: 'row'
-  },
   workoutListItemTitle: {
     fontSize: 22
-  },
-  workoutListItemSubtitle: {
-    fontSize: 16
   },
   workListItemSwipeBack: {
     flex: 1,

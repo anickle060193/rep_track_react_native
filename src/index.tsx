@@ -4,6 +4,7 @@ import { StackNavigator } from 'react-navigation';
 
 import Workouts from '@screens/Workouts';
 import NewWorkout from '@screens/NewWorkout';
+import WorkoutScreen from '@screens/WorkoutScreen';
 
 import store from '@store';
 
@@ -12,7 +13,8 @@ import { Routes } from '@utils/routes';
 const RootStack = StackNavigator(
   {
     [ Routes.Workouts ]: { screen: Workouts },
-    [ Routes.NewWorkout ]: { screen: NewWorkout }
+    [ Routes.NewWorkout ]: { screen: NewWorkout },
+    [ Routes.Workout ]: { screen: WorkoutScreen }
   },
   {
     initialRouteName: Routes.Workouts,

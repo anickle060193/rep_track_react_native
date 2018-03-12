@@ -15,9 +15,23 @@ const initialState: State = {
 
 {
   let id = uuid();
-  initialState.workouts[ id ] = { id: id, name: 'Testing', date: new Date(), sets: 1, reps: 1, weight: 120 };
+  initialState.workouts[ id ] = {
+    id: id,
+    date: new Date(),
+    exercises: [
+      { name: 'Testing 2', sets: 123, reps: 12345, weight: 134520 },
+      { name: 'Testing', sets: 1, reps: 1, weight: 120 }
+    ]
+  };
   id = uuid();
-  initialState.workouts[ id ] = { id: id, name: 'Testing 2', date: new Date( 0 ), sets: 123, reps: 12345, weight: 134520 };
+  initialState.workouts[ id ] = {
+    id: id,
+    date: new Date( 0 ),
+    exercises: [
+      { name: 'Testing', sets: 1, reps: 1, weight: 120 },
+      { name: 'Testing 2', sets: 123, reps: 12345, weight: 134520 }
+    ]
+  };
 }
 
 const actionCreator = actionCreatorFactory( 'workouts' );

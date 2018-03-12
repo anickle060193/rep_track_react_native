@@ -1,11 +1,16 @@
-export interface Workout
+export interface Exercise
 {
-  id: string;
-  date: Date;
   name: string;
   sets: number;
   reps: number;
   weight: number;
+}
+
+export interface Workout
+{
+  id: string;
+  date: Date;
+  exercises: Exercise[];
 }
 
 export type WorkoutsMap = { [ id: string ]: Workout };

@@ -1,10 +1,13 @@
 import * as React from 'react';
+import { Provider } from 'react-redux';
 import { StackNavigator } from 'react-navigation';
 
-import Workouts from './screens/Workouts';
-import NewWorkout from './screens/NewWorkout';
+import Workouts from '@screens/Workouts';
+import NewWorkout from '@screens/NewWorkout';
 
-import { Routes } from './routes';
+import store from '@store';
+
+import { Routes } from '@utils/routes';
 
 const RootStack = StackNavigator(
   {
@@ -32,7 +35,9 @@ export default class App extends React.Component
   render()
   {
     return (
-      <RootStack />
+      <Provider store={store}>
+        <RootStack />
+      </Provider>
     );
   }
 }

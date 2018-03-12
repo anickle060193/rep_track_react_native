@@ -4,7 +4,7 @@ import { NavigationInjectedProps, NavigationScreenOptions } from 'react-navigati
 import { MKTextField, MKColor } from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { Workout } from '../../utils/workout';
+import { Workout } from '@utils/workout';
 
 const WHITESPACE_RE = /^[\s]*$/;
 

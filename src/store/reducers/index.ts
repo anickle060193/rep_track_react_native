@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import { State as WorkoutsState, reducer as workoutsReducer } from './workouts';
+import { State as WorkoutsState, reducer as workoutsReducer } from '@store/reducers/workouts';
 
 declare global
 {

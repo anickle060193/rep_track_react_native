@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, Text, Button } from 'react-native';
 import { NavigationInjectedProps, NavigationScreenOptions } from 'react-navigation';
 
-import { Routes } from '../../routes';
+import { Routes } from '@utils/routes';
 
 type Props = NavigationInjectedProps;
 

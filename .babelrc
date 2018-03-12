@@ -2,6 +2,33 @@
   "presets": [
     "babel-preset-expo"
   ],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": [
+          "./src"
+        ],
+        "alias": {
+          "*": [
+            "src/*"
+          ],
+          "@components": [
+            "components"
+          ],
+          "@screens": [
+            "screens"
+          ],
+          "@store": [
+            "store"
+          ],
+          "@utils": [
+            "utils"
+          ]
+        }
+      }
+    ]
+  ],
   "env": {
     "development": {
       "plugins": [

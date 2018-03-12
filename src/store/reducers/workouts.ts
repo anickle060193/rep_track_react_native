@@ -1,7 +1,7 @@
 import actionCreatorFactory from 'typescript-fsa';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 
-import { Workout } from '../../utils/workout';
+import { Workout } from '@utils/workout';
 
 export interface State
 {

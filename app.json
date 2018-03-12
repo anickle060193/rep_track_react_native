@@ -1,5 +1,11 @@
 {
   "expo": {
+    "name": "Rep Track",
+    "version": "0.1.0",
+    "slug": "rep_track",
+    "android": {
+      "package": "com.adamnickle.rep_track"
+    },
     "sdkVersion": "25.0.0",
     "packagerOpts": {
       "sourceExts": [

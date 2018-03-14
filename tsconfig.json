@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "build/dist",
     "module": "es2015",
-    "target": "es5",
+    "target": "es2015",
     "lib": [
       "dom",
       "es2015",
@@ -11,6 +11,7 @@
     "sourceMap": true,
     "allowJs": true,
     "jsx": "react-native",
+    "importHelpers": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
@@ -20,24 +21,7 @@
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
-    "baseUrl": "./src",
-    "paths": {
-      "@components/*": [
-        "components/*"
-      ],
-      "@screens/*": [
-        "screens/*"
-      ],
-      "@store": [
-        "store"
-      ],
-      "@store/*": [
-        "store/*"
-      ],
-      "@utils/*": [
-        "utils/*"
-      ],
-    }
+    "baseUrl": "./src"
   },
   "exclude": [
     "node_modules",

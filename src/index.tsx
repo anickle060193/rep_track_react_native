@@ -2,13 +2,13 @@ import * as React from 'react';
 import { Provider } from 'react-redux';
 import { StackNavigator } from 'react-navigation';
 
-import Workouts from '@screens/Workouts';
-import NewWorkout from '@screens/NewWorkout';
-import WorkoutScreen from '@screens/WorkoutScreen';
+import Workouts from 'screens/Workouts';
+import NewWorkout from 'screens/NewWorkout';
+import WorkoutScreen from 'screens/WorkoutScreen';
 
-import store from '@store';
+import store from 'store';
 
-import { Routes } from '@utils/routes';
+import { Routes } from 'utils/routes';
 
 const RootStack = StackNavigator(
   {

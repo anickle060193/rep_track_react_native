@@ -2,7 +2,7 @@ import actionCreatorFactory from 'typescript-fsa';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import uuid from 'uuid/v4';
 
-import { Workout, WorkoutsMap } from '@utils/workout';
+import { Workout, WorkoutsMap } from 'utils/workout';
 
 export interface State
 {

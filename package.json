@@ -2,13 +2,14 @@
   "name": "rep_track",
   "version": "0.1.0",
   "private": true,
-  "jest": {},
+  "jest": {
+    "preset": "react-native"
+  },
   "scripts": {
     "start": "react-native start",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "test": "node node_modules/jest/bin/jest.js",
-    "postinstall": "react-native link"
+    "test": "node node_modules/jest/bin/jest.js"
   },
   "devDependencies": {
     "@types/jest": "^22.0.0",
@@ -21,13 +22,14 @@
     "@types/react-test-renderer": "^16.0.0",
     "@types/redux-logger": "^3.0.5",
     "@types/uuid": "^3.4.3",
-    "babel-preset-react-native-stage-0": "^1.0.1",
-    "react-native-scripts-ts": "1.11.3",
+    "babel-jest": "^22.4.1",
+    "babel-preset-react-native": "^4.0.0",
+    "jest": "^22.4.2",
     "react-native-typescript-transformer": "^1.2.3",
-    "react-test-renderer": "16.2.0",
+    "react-test-renderer": "^16.2.0",
     "ts-jest": "^22.0.4",
     "tslib": "^1.7.1",
-    "typescript": "^2.7.0"
+    "typescript": "^2.7.2"
   },
   "dependencies": {
     "react": "16.2.0",

@@ -1,10 +1,13 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Text, FlatList, StyleSheet, View } from 'react-native';
-import { NavigationScreenOptions, NavigationScreenConfig, NavigationScreenProps } from 'react-navigation';
+import { NavigationStackScreenOptions, NavigationScreenConfig, NavigationScreenProps } from 'react-navigation';
+
+import EditButton from '@components/EditButton';
 
 import { WorkoutsMap, Exercise } from '@utils/workout';
 import { isWorkoutRoute } from '@utils/routes';
+import { navParams } from '@utils';
 
 interface PropsFromState
 {
@@ -17,8 +20,9 @@ type Props = PropsFromState & OwnProps;
 
 class WorkoutScreen extends React.Component<Props>
 {
-  static navigationOptions: NavigationScreenConfig<NavigationScreenOptions> = ( { navigation } ) => ( {
-    title: isWorkoutRoute( navigation.state.params ) && navigation.state.params.workout.date.toDateString() || 'Workout'
+  static navigationOptions: NavigationScreenConfig<NavigationStackScreenOptions> = ( { navigation } ) => ( {
+    title: isWorkoutRoute( navigation.state.params ) && navigation.state.params.workout.date.toDateString() || 'Workout',
+    headerRight: navParams( navigation.state.params, ( p ) => p.editing, false ) ? undefined : <EditButton onPress={() => navigation.setParams( { ...navigation.state.params, editing: true } )} />
   } );
 
   render()

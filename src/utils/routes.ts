@@ -1,4 +1,4 @@
-import { Workout } from "utils/workout";
+import { Workout } from "@utils/workout";
 import { NavigationParams } from "react-navigation";
 
 export const enum Routes

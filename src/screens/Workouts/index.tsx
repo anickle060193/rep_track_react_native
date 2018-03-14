@@ -8,10 +8,10 @@ import { MKColor } from 'react-native-material-kit';
 import { SwipeListView, RowsMap } from 'react-native-swipe-list-view';
 import uuid from 'uuid/v4';
 
-import { removeWorkout, addWorkout } from 'store/reducers/workouts';
+import { removeWorkout, addWorkout } from '@store/reducers/workouts';
 
-import { Routes, createParams } from 'utils/routes';
-import { Workout, WorkoutsMap, workoutsMapToArray } from 'utils/workout';
+import { Routes, createParams } from '@utils/routes';
+import { Workout, WorkoutsMap, workoutsMapToArray } from '@utils/workout';
 
 interface PropsFromState
 {

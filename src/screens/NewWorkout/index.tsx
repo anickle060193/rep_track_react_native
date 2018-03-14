@@ -6,7 +6,7 @@ import { MKTextField, MKColor } from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import uuid from 'uuid/v4';
 
-import { addWorkout } from 'store/reducers/workouts';
+import { addWorkout } from '@store/reducers/workouts';
 
 const WHITESPACE_RE = /^[\s]*$/;
 

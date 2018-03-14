@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { Text, FlatList, StyleSheet, View } from 'react-native';
 import { NavigationScreenOptions, NavigationScreenConfig, NavigationScreenProps } from 'react-navigation';
 
-import { WorkoutsMap, Exercise } from 'utils/workout';
-import { isWorkoutRoute } from 'utils/routes';
+import { WorkoutsMap, Exercise } from '@utils/workout';
+import { isWorkoutRoute } from '@utils/routes';
 
 interface PropsFromState
 {

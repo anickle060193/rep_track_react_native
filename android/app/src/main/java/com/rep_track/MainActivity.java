@@ -1,4 +1,4 @@
-package com.rep_track;
+package com.adamnickle.rep_track;
 
 import com.facebook.react.ReactActivity;
 

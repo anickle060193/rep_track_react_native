@@ -98,7 +98,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.rep_track"
+        applicationId "com.adamnickle.rep_track"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1

@@ -2,12 +2,11 @@
   "name": "rep_track",
   "version": "0.1.0",
   "private": true,
-  "main": "./node_modules/react-native-scripts-ts/build/bin/crna-entry.js",
+  "jest": {},
   "scripts": {
-    "start": "react-native-scripts-ts start",
-    "eject": "react-native-scripts-ts eject",
-    "android": "react-native-scripts-ts android",
-    "ios": "react-native-scripts-ts ios",
+    "start": "react-native start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
     "test": "node node_modules/jest/bin/jest.js",
     "postinstall": "react-native link"
   },
@@ -22,7 +21,7 @@
     "@types/react-test-renderer": "^16.0.0",
     "@types/redux-logger": "^3.0.5",
     "@types/uuid": "^3.4.3",
-    "jest-expo": "25.0.0",
+    "babel-preset-react-native-stage-0": "^1.0.1",
     "react-native-scripts-ts": "1.11.3",
     "react-native-typescript-transformer": "^1.2.3",
     "react-test-renderer": "16.2.0",
@@ -31,7 +30,6 @@
     "typescript": "^2.7.0"
   },
   "dependencies": {
-    "expo": "^25.0.0",
     "react": "16.2.0",
     "react-native": "0.52.0",
     "react-native-action-button": "^2.8.4",

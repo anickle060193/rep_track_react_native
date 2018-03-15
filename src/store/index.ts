@@ -17,6 +17,7 @@ if( __DEV__ )
     collapsed: false,
     diff: false,
     duration: true,
+    predicate: ( getState, action ) => action.type !== 'Navigation/COMPLETE_TRANSITION'
   } ) );
 }
 

@@ -1,13 +1,21 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Text, FlatList, StyleSheet, View } from 'react-native';
-import { NavigationStackScreenOptions, NavigationScreenConfig, NavigationScreenProps } from 'react-navigation';
+import { NavigationStackScreenOptions, NavigationScreenProps, NavigationScreenConfig } from 'react-navigation';
 
 import EditButton from '@components/EditButton';
 
+import { setWorkoutEditing } from '@store/reducers/navigation';
+
 import { WorkoutsMap, Exercise } from '@utils/workout';
 import { isWorkoutRoute } from '@utils/routes';
-import { navParams } from '@utils';
+
+const StartEditButton = connect<{}, { setWorkoutEditing: typeof setWorkoutEditing }, {}, RootState>(
+  null,
+  { setWorkoutEditing }
+)( ( { setWorkoutEditing } ) => (
+  <EditButton onPress={() => setWorkoutEditing( true )} />
+) );
 
 interface PropsFromState
 {
@@ -20,20 +28,27 @@ type Props = PropsFromState & OwnProps;
 
 class WorkoutScreen extends React.Component<Props>
 {
-  static navigationOptions: NavigationScreenConfig<NavigationStackScreenOptions> = ( { navigation } ) => ( {
-    title: isWorkoutRoute( navigation.state.params ) && navigation.state.params.workout.date.toDateString() || 'Workout',
-    headerRight: navParams( navigation.state.params, ( p ) => p.editing, false ) ? undefined : <EditButton onPress={() => navigation.setParams( { ...navigation.state.params, editing: true } )} />
-  } );
+  static navigationOptions: NavigationScreenConfig<NavigationStackScreenOptions> = ( { navigation, screenProps } ) =>
+  {
+    if( !isWorkoutRoute( navigation.state ) )
+    {
+      throw new Error( 'Route is not a workout route.' );
+    }
+    return {
+      title: navigation.state.params.workout.date.toDateString(),
+      headerRight: navigation.state.params.editing ? ( undefined ) : ( <StartEditButton /> )
+    };
+  };
 
   render()
   {
-    let { params } = this.props.navigation.state;
-    if( !isWorkoutRoute( params ) )
+    let route = this.props.navigation.state;
+    if( !isWorkoutRoute( route ) )
     {
-      throw new Error( 'No workoutID in params.' );
+      throw new Error( 'Route is not a workout route.' );
     }
 
-    let workout = this.props.workouts[ params.workout.id ];
+    let workout = this.props.workouts[ route.params.workout.id ];
 
     return (
       <FlatList

@@ -1,5 +1,5 @@
 import { Workout } from "@utils/workout";
-import { NavigationParams } from "react-navigation";
+import { NavigationLeafRoute } from "react-navigation";
 
 export const enum Routes
 {
@@ -8,22 +8,30 @@ export const enum Routes
   Workout = 'Workout'
 }
 
-export interface BaseRouteParams<R extends Routes>
-{
-  route: R;
-}
-
-interface WorkoutRouteParams extends BaseRouteParams<Routes.Workout>
+export interface WorkoutRouteParams
 {
   workout: Workout;
+  editing: boolean;
 }
 
 export type RouteParams = (
-  BaseRouteParams<Routes.Workouts | Routes.NewWorkout> |
+  {} |
   WorkoutRouteParams
 );
 
-export function isWorkoutRoute( params: RouteParams | NavigationParams | undefined ): params is WorkoutRouteParams
+interface BaseRouteLeaf<R extends Routes, P extends RouteParams = {}> extends NavigationLeafRoute
 {
-  return ( !!params && ( params as RouteParams ).route === Routes.Workout );
+  routeName: R;
+  params: P;
+}
+
+export type RouteLeaf = (
+  BaseRouteLeaf<Routes.Workouts, {}> |
+  BaseRouteLeaf<Routes.NewWorkout, {}> |
+  BaseRouteLeaf<Routes.Workout, WorkoutRouteParams>
+);
+
+export function isWorkoutRoute( route: RouteLeaf | NavigationLeafRoute ): route is BaseRouteLeaf<Routes.Workout, WorkoutRouteParams>
+{
+  return ( !!route && route.routeName === Routes.Workout );
 }

@@ -2,7 +2,7 @@ import { actionCreatorFactory } from 'typescript-fsa';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import { NavigationActions, NavigationLeafRoute } from 'react-navigation';
 
-import { Routes, RouteParams } from '@utils/routes';
+import { Routes, RouteParams, isWorkoutRoute } from '@utils/routes';
 import { Workout } from '@utils/workout';
 
 interface RouteLeaf extends NavigationLeafRoute
@@ -27,6 +27,7 @@ const actionCreator = actionCreatorFactory();
 export const navigateBack = actionCreator( NavigationActions.BACK );
 export const navigateToNewWorkout = actionCreator( 'NAVIGATE_TO_NEW_WORKOUT' );
 export const navigateToWorkout = actionCreator<Workout>( 'NAVIGATE_TO_WORKOUT' );
+export const setWorkoutEditing = actionCreator<boolean>( 'SET_WORKOUT_EDITING' );
 
 const getCurrentRoute = ( state: State ) => state.routes[ state.index ];
 
@@ -59,7 +60,7 @@ export const reducer = reducerWithInitialState<State>( initialState )
   .case( navigateToWorkout, ( state, workout ) =>
   {
     let currentRoute = getCurrentRoute( state );
-    if( currentRoute.params.route === Routes.Workout
+    if( isWorkoutRoute( currentRoute )
       && currentRoute.params.workout.id === workout.id )
     {
       return state;
@@ -69,8 +70,30 @@ export const reducer = reducerWithInitialState<State>( initialState )
       return addRoute( state, {
         key: workout.id,
         routeName: Routes.Workout,
-        params: { route: Routes.Workout, workout }
+        params: { route: Routes.Workout, workout: workout, editing: false }
       } );
+    }
+  } )
+  .case( setWorkoutEditing, ( state, editing ) =>
+  {
+    if( isWorkoutRoute( state.routes[ state.index ] ) )
+    {
+      let routes = [ ...state.routes ];
+      routes[ state.index ] = {
+        ...state.routes[ state.index ],
+        params: {
+          ...state.routes[ state.index ].params,
+          editing
+        }
+      };
+      return {
+        ...state,
+        routes
+      };
+    }
+    else
+    {
+      return state;
     }
   } )
   .case( navigateBack, ( state ) =>

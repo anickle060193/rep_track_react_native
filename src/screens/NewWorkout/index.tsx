@@ -1,23 +1,23 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { View, TouchableNativeFeedback, StyleSheet, Button, Keyboard } from 'react-native';
-import { NavigationInjectedProps, NavigationScreenOptions } from 'react-navigation';
+import { NavigationScreenOptions } from 'react-navigation';
 import { MKTextField, MKColor } from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import uuid from 'uuid/v4';
 
 import { addWorkout } from '@store/reducers/workouts';
+import { navigateBack } from '@store/reducers/navigation';
 
 const WHITESPACE_RE = /^[\s]*$/;
 
 interface PropsFromDispatch
 {
   addWorkout: typeof addWorkout;
+  navigateBack: typeof navigateBack;
 }
 
-type OwnProps = NavigationInjectedProps;
-
-type Props = PropsFromDispatch & OwnProps;
+type Props = PropsFromDispatch;
 
 interface State
 {
@@ -250,7 +250,7 @@ class NewWorkout extends React.Component<Props, State>
       ]
     } );
 
-    this.props.navigation.goBack();
+    this.props.navigateBack();
   }
 }
 
@@ -285,9 +285,10 @@ const styles = StyleSheet.create( {
   }
 } );
 
-export default connect<{}, PropsFromDispatch, OwnProps, RootState>(
+export default connect<{}, PropsFromDispatch, {}, RootState>(
   ( state ) => ( {} ),
   {
-    addWorkout
+    addWorkout,
+    navigateBack
   }
 )( NewWorkout );

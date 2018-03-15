@@ -27,8 +27,3 @@ export function isWorkoutRoute( params: RouteParams | NavigationParams | undefin
 {
   return ( !!params && ( params as RouteParams ).route === Routes.Workout );
 }
-
-export function createParams( params: RouteParams ): RouteParams
-{
-  return params;
-}

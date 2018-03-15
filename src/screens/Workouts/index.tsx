@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, StyleSheet, TouchableNativeFeedback } from 'react-native';
-import { NavigationScreenOptions, NavigationScreenProps } from 'react-navigation';
+import { NavigationScreenOptions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ActionButton from 'react-native-action-button';
 import { MKColor } from 'react-native-material-kit';
@@ -9,8 +9,8 @@ import { SwipeListView, RowsMap } from 'react-native-swipe-list-view';
 import uuid from 'uuid/v4';
 
 import { removeWorkout, addWorkout } from '@store/reducers/workouts';
+import { navigateToWorkout, navigateToNewWorkout } from '@store/reducers/navigation';
 
-import { Routes, createParams } from '@utils/routes';
 import { Workout, WorkoutsMap, workoutsMapToArray } from '@utils/workout';
 
 interface PropsFromState
@@ -22,11 +22,11 @@ interface PropsFromDispatch
 {
   addWorkout: typeof addWorkout;
   removeWorkout: typeof removeWorkout;
+  navigateToWorkout: typeof navigateToWorkout;
+  navigateToNewWorkout: typeof navigateToNewWorkout;
 }
 
-type OwnProps = NavigationScreenProps;
-
-type Props = PropsFromState & PropsFromDispatch & OwnProps;
+type Props = PropsFromState & PropsFromDispatch;
 
 class Home extends React.Component<Props>
 {
@@ -77,7 +77,7 @@ class Home extends React.Component<Props>
 
   private onNewWorkoutPress = () =>
   {
-    this.props.navigation.navigate( Routes.NewWorkout );
+    this.props.navigateToNewWorkout();
   }
 
   private onRowOpen = ( workoutId: string, rows: RowsMap ) =>
@@ -88,7 +88,7 @@ class Home extends React.Component<Props>
 
   private onWorkoutPress = ( workout: Workout ) =>
   {
-    this.props.navigation.navigate( Routes.Workout, createParams( { route: Routes.Workout, workout } ) );
+    this.props.navigateToWorkout( workout );
   }
 
   private onWorkoutLongPress = ( workout: Workout ) =>
@@ -151,12 +151,14 @@ const styles = StyleSheet.create( {
   }
 } );
 
-export default connect<PropsFromState, PropsFromDispatch, OwnProps, RootState>(
+export default connect<PropsFromState, PropsFromDispatch, {}, RootState>(
   ( state ) => ( {
     workouts: state.workouts.workouts
   } ),
   {
     addWorkout,
-    removeWorkout
+    removeWorkout,
+    navigateToWorkout,
+    navigateToNewWorkout
   }
 )( Home );

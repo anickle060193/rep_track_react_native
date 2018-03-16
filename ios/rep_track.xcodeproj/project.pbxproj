@@ -49,6 +49,7 @@
 		F3A9674AD0064C12B2FDF919 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0930EFBDA0174C0DAAD0A96E /* Octicons.ttf */; };
 		4E4956CE94B94F57BFDDCB9E /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C27BC5CB82A84EBF839B1D83 /* SimpleLineIcons.ttf */; };
 		B58A3926069F42439F3846D0 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 759BC3DE2F704C66B91FF3FA /* Zocial.ttf */; };
+		3669F3F2440A407E9D0FBE56 /* libKCKeepAwake.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 80828222E07249C2BC62E25A /* libKCKeepAwake.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -313,6 +314,8 @@
 		0930EFBDA0174C0DAAD0A96E /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		C27BC5CB82A84EBF839B1D83 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		759BC3DE2F704C66B91FF3FA /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2825293A38B34874AF9B79BD /* KCKeepAwake.xcodeproj */ = {isa = PBXFileReference; name = "KCKeepAwake.xcodeproj"; path = "../node_modules/react-native-keep-awake/ios/KCKeepAwake.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		80828222E07249C2BC62E25A /* libKCKeepAwake.a */ = {isa = PBXFileReference; name = "libKCKeepAwake.a"; path = "libKCKeepAwake.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -343,6 +346,7 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				84A583AC0E3C49009F419C74 /* libRCTMaterialKit.a in Frameworks */,
 				836160D674DE4ACCAFAA5EE1 /* libRNVectorIcons.a in Frameworks */,
+				3669F3F2440A407E9D0FBE56 /* libKCKeepAwake.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -522,6 +526,7 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				7E9D92C3315F4559BCA3FDC1 /* RCTMaterialKit.xcodeproj */,
 				2A265B9970224E609513EC37 /* RNVectorIcons.xcodeproj */,
+				2825293A38B34874AF9B79BD /* KCKeepAwake.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1124,12 +1129,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-material-kit\iOS\RCTMaterialKit",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-keep-awake\ios",
 				);
 			};
 			name = Debug;
@@ -1151,12 +1156,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-material-kit\iOS\RCTMaterialKit",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-keep-awake\ios",
 				);
 			};
 			name = Release;
@@ -1180,6 +1185,7 @@
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-material-kit\iOS\RCTMaterialKit",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-keep-awake\ios",
 				);
 			};
 			name = Debug;
@@ -1202,6 +1208,7 @@
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-material-kit\iOS\RCTMaterialKit",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-keep-awake\ios",
 				);
 			};
 			name = Release;
@@ -1232,12 +1239,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-material-kit\iOS\RCTMaterialKit",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-keep-awake\ios",
 				);
 			};
 			name = Debug;
@@ -1268,12 +1275,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-material-kit\iOS\RCTMaterialKit",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-keep-awake\ios",
 				);
 			};
 			name = Release;
@@ -1299,7 +1306,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};
 			name = Debug;
@@ -1324,7 +1330,6 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};

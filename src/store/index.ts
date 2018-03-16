@@ -23,4 +23,12 @@ if( __DEV__ )
 
 const store = createStore<RootState>( rootReducer, applyMiddleware( ...middleWares ) );
 
+if( module.hot )
+{
+  module.hot.accept( '@store/reducers', () =>
+  {
+    store.replaceReducer( rootReducer );
+  } );
+}
+
 export default store;

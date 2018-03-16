@@ -24,6 +24,12 @@
   version "9.4.7"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.4.7.tgz#57d81cd98719df2c9de118f2d5f3b1120dcd7275"
 
+"@types/react-native-keep-awake@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@types/react-native-keep-awake/-/react-native-keep-awake-2.0.1.tgz#862b7bb096cd8bc7cb8c7589bbfbcf63a5a5fd94"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-native-material-kit@^0.5.1":
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/@types/react-native-material-kit/-/react-native-material-kit-0.5.1.tgz#1f324e44bd926985ae2400cea698f06904457a05"
@@ -79,6 +85,10 @@
   resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-3.4.3.tgz#121ace265f5569ce40f4f6d0ff78a338c732a754"
   dependencies:
     "@types/node" "*"
+
+"@types/webpack-env@^1.13.5":
+  version "1.13.5"
+  resolved "https://registry.yarnpkg.com/@types/webpack-env/-/webpack-env-1.13.5.tgz#ca854e9fbdbcdf45d7376882875f28e2c60593f8"
 
 abab@^1.0.4:
   version "1.0.4"
@@ -4193,6 +4203,10 @@ react-native-drawer-layout@1.3.2:
   resolved "https://registry.yarnpkg.com/react-native-drawer-layout/-/react-native-drawer-layout-1.3.2.tgz#b9740d7663a1dc4f88a61b9c6d93d2d948ea426e"
   dependencies:
     react-native-dismiss-keyboard "1.0.0"
+
+react-native-keep-awake@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-keep-awake/-/react-native-keep-awake-3.0.1.tgz#916652b039732a93e0b6b6077e8905fe7e74abea"
 
 react-native-material-kit@^0.5.1:
   version "0.5.1"

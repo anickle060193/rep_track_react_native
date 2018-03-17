@@ -5,7 +5,7 @@ import { FlatList, Text, StyleSheet, TouchableNativeFeedback, View } from 'react
 import { range } from '@utils';
 import { isExerciseRoute } from '@utils/routes';
 import { ScreenConfig, mapParamsToProps } from '@utils/navigation';
-import { Workout, WorkoutsMap, Exercise } from '@utils/workout';
+import { Workout, WorkoutsMap, Exercise, formatWorkoutName } from '@utils/workout';
 
 interface PropsFromState
 {
@@ -23,7 +23,7 @@ type Props = PropsFromState & OwnProps;
 class ExerciseScreen extends React.Component<Props>
 {
   static navigationOptions: ScreenConfig<OwnProps> = ( { workout, exerciseIndex } ) => ( {
-    title: `${workout.exercises[ exerciseIndex ].name} - ${workout.date.toDateString()}`
+    title: `${workout.exercises[ exerciseIndex ].name} - ${formatWorkoutName( workout )}`
   } );
 
   render()

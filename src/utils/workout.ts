@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export interface Exercise
 {
   name: string;
@@ -28,4 +30,9 @@ export function workoutsArrayToMap( workouts: Workout[] )
     workoutsMap[ workout.id ] = workout;
   }
   return workoutsMap;
+}
+
+export function formatWorkoutName( workout: Workout )
+{
+  return moment( workout.date ).format( 'L' );
 }

@@ -11,7 +11,7 @@ import NewExerciseModal from '@components/NewExerciseModal';
 import { setWorkoutEditing, navigateToExercise } from '@store/reducers/navigation';
 import { addExercise } from '@store/reducers/workouts';
 
-import { WorkoutsMap, Exercise, Workout } from '@utils/workout';
+import { WorkoutsMap, Exercise, Workout, formatWorkoutName } from '@utils/workout';
 import { isWorkoutRoute } from '@utils/routes';
 import { mapParamsToProps, ScreenConfig } from '@utils/navigation';
 
@@ -49,7 +49,7 @@ interface State
 class WorkoutScreen extends React.Component<Props, State>
 {
   static navigationOptions: ScreenConfig<OwnProps> = ( props ) => ( {
-    title: props.workout.date.toDateString(),
+    title: formatWorkoutName( props.workout ),
     headerRight: props.editing ? ( undefined ) : ( <StartEditButton /> )
   } );
 

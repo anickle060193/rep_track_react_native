@@ -11,7 +11,7 @@ import uuid from 'uuid/v4';
 import { removeWorkout, addWorkout } from '@store/reducers/workouts';
 import { navigateToWorkout, setWorkoutEditing } from '@store/reducers/navigation';
 
-import { Workout, WorkoutsMap, workoutsMapToArray } from '@utils/workout';
+import { Workout, WorkoutsMap, workoutsMapToArray, formatWorkoutName } from '@utils/workout';
 
 interface PropsFromState
 {
@@ -120,7 +120,7 @@ const WorkoutListItem: React.SFC<{
   >
     <View style={styles.workoutListItem}>
       <Text style={styles.workoutListItemTitle}>
-        {workout.date.toDateString()}
+        {formatWorkoutName( workout )}
       </Text>
     </View>
   </TouchableNativeFeedback>

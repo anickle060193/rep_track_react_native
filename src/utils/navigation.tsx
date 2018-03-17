@@ -12,7 +12,7 @@ type ParamsMapper<P> = ( navigation: NavigationRoute ) => P;
 
 export function mapParamsToProps<ParamsProps = {}, OwnProps = {}>( mapper: ParamsMapper<ParamsProps> )
 {
-  return ( ChildComponent: ScreenComponent<ParamsProps, OwnProps> ) =>
+  return ( ChildComponent: ScreenComponent<ParamsProps, OwnProps> ): React.ComponentClass<OwnProps & NavigationScreenProps> =>
   {
     return class extends React.Component<OwnProps & NavigationScreenProps>
     {

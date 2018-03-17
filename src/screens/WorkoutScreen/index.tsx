@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Text, FlatList, StyleSheet, View } from 'react-native';
+import { NavigationStackScreenOptions, NavigationScreenConfig, NavigationScreenProps } from 'react-navigation';
 import ActionButton from 'react-native-action-button';
 import { MKColor } from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -11,9 +12,8 @@ import NewExerciseModal from '@components/NewExerciseModal';
 import { setWorkoutEditing } from '@store/reducers/navigation';
 import { addExercise } from '@store/reducers/workouts';
 
-import { WorkoutsMap, Exercise, Workout } from '@utils/workout';
+import { WorkoutsMap, Exercise } from '@utils/workout';
 import { isWorkoutRoute } from '@utils/routes';
-import { mapParamsToProps, ScreenConfig } from '@utils/navigation';
 
 const StartEditButton = connect<{}, { setWorkoutEditing: typeof setWorkoutEditing }, {}, RootState>(
   null,
@@ -32,11 +32,7 @@ interface PropsFromDispatch
   addExercise: typeof addExercise;
 }
 
-interface OwnProps
-{
-  workout: Workout;
-  editing: boolean;
-}
+type OwnProps = NavigationScreenProps;
 
 type Props = PropsFromState & PropsFromDispatch & OwnProps;
 
@@ -47,27 +43,42 @@ interface State
 
 class WorkoutScreen extends React.Component<Props, State>
 {
-  static navigationOptions: ScreenConfig<OwnProps> = ( props ) => ( {
-    title: props.workout.date.toDateString(),
-    headerRight: props.editing ? ( undefined ) : ( <StartEditButton /> )
-  } );
+  static navigationOptions: NavigationScreenConfig<NavigationStackScreenOptions> = ( { navigation, screenProps } ) =>
+  {
+    if( !isWorkoutRoute( navigation.state ) )
+    {
+      throw new Error( 'Route is not a workout route.' );
+    }
+    return {
+      title: navigation.state.params.workout.date.toDateString(),
+      headerRight: navigation.state.params.editing ? ( undefined ) : ( <StartEditButton /> )
+    };
+  };
 
   constructor( props: Props )
   {
     super( props );
 
     this.state = {
-      showNewExercise: false
+      showNewExercise: true
     };
   }
 
   render()
   {
+    let route = this.props.navigation.state;
+    if( !isWorkoutRoute( route ) )
+    {
+      throw new Error( 'Route is not a workout route.' );
+    }
+
+    let workout = this.props.workouts[ route.params.workout.id ];
+
     return (
       <View style={{ flex: 1 }}>
         <FlatList
           style={styles.exercisesList}
-          data={this.props.workout.exercises}
+          data={workout.exercises}
           keyExtractor={( item, i ) => i.toString()}
           renderItem={( { item } ) => <ExerciseListItem exercise={item} />}
         />
@@ -98,7 +109,15 @@ class WorkoutScreen extends React.Component<Props, State>
 
   private onAddExercise = ( exercise: Exercise ) =>
   {
-    this.props.addExercise( { workoutId: this.props.workout.id, exercise } );
+    let route = this.props.navigation.state;
+    if( !isWorkoutRoute( route ) )
+    {
+      throw new Error( 'Route is not a workout route.' );
+    }
+
+    let workout = this.props.workouts[ route.params.workout.id ];
+
+    this.props.addExercise( { workoutId: workout.id, exercise } );
     this.onCloseNewExerciseModal();
   }
 }
@@ -147,7 +166,7 @@ const styles = StyleSheet.create( {
   }
 } );
 
-const ConnectedWorkoutScreen = connect<PropsFromState, PropsFromDispatch, OwnProps, RootState>(
+export default connect<PropsFromState, PropsFromDispatch, OwnProps, RootState>(
   ( state, props ) =>
     ( {
       workouts: state.workouts.workouts
@@ -156,16 +175,3 @@ const ConnectedWorkoutScreen = connect<PropsFromState, PropsFromDispatch, OwnPro
     addExercise
   }
 )( WorkoutScreen );
-
-export default mapParamsToProps<OwnProps>( ( route ) =>
-{
-  if( !isWorkoutRoute( route ) )
-  {
-    throw new Error( 'Workout missing for WorkoutScreen.' );
-  }
-
-  return {
-    workout: route.params.workout,
-    editing: route.params.editing
-  };
-} )( ConnectedWorkoutScreen );

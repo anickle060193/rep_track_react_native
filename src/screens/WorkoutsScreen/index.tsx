@@ -28,7 +28,7 @@ interface PropsFromDispatch
 
 type Props = PropsFromState & PropsFromDispatch;
 
-class Home extends React.Component<Props>
+class WorkoutsScreen extends React.Component<Props>
 {
   static navigationOptions: NavigationScreenOptions = {
   };
@@ -168,4 +168,4 @@ export default connect<PropsFromState, PropsFromDispatch, {}, RootState>(
     navigateToWorkout,
     setWorkoutEditing
   }
-)( Home );
+)( WorkoutsScreen );

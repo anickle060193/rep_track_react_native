@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { StackNavigator, addNavigationHelpers } from 'react-navigation';
 import { createReactNavigationReduxMiddleware, createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 
-import Workouts from '@screens/Workouts';
+import WorkoutsScreen from '@screens/WorkoutsScreen';
 import WorkoutScreen from '@screens/WorkoutScreen';
 import ExerciseScreen from '@screens/ExerciseScreen';
 
@@ -18,7 +18,7 @@ const addListener = createReduxBoundAddListener( 'root' );
 
 export const AppNavigator = StackNavigator(
   {
-    [ Routes.Workouts ]: { screen: Workouts },
+    [ Routes.Workouts ]: { screen: WorkoutsScreen },
     [ Routes.Workout ]: { screen: WorkoutScreen },
     [ Routes.Exercise ]: { screen: ExerciseScreen }
   },

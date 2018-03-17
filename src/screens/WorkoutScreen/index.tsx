@@ -1,14 +1,19 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Text, FlatList, StyleSheet, View } from 'react-native';
-import { NavigationStackScreenOptions, NavigationScreenProps, NavigationScreenConfig } from 'react-navigation';
+import ActionButton from 'react-native-action-button';
+import { MKColor } from 'react-native-material-kit';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import EditButton from '@components/EditButton';
+import NewExerciseModal from '@components/NewExerciseModal';
 
 import { setWorkoutEditing } from '@store/reducers/navigation';
+import { addExercise } from '@store/reducers/workouts';
 
-import { WorkoutsMap, Exercise } from '@utils/workout';
+import { WorkoutsMap, Exercise, Workout } from '@utils/workout';
 import { isWorkoutRoute } from '@utils/routes';
+import { mapParamsToProps, ScreenConfig } from '@utils/navigation';
 
 const StartEditButton = connect<{}, { setWorkoutEditing: typeof setWorkoutEditing }, {}, RootState>(
   null,
@@ -22,42 +27,79 @@ interface PropsFromState
   workouts: WorkoutsMap;
 }
 
-type OwnProps = NavigationScreenProps;
-
-type Props = PropsFromState & OwnProps;
-
-class WorkoutScreen extends React.Component<Props>
+interface PropsFromDispatch
 {
-  static navigationOptions: NavigationScreenConfig<NavigationStackScreenOptions> = ( { navigation, screenProps } ) =>
+  addExercise: typeof addExercise;
+}
+
+interface OwnProps
+{
+  workout: Workout;
+  editing: boolean;
+}
+
+type Props = PropsFromState & PropsFromDispatch & OwnProps;
+
+interface State
+{
+  showNewExercise: boolean;
+}
+
+class WorkoutScreen extends React.Component<Props, State>
+{
+  static navigationOptions: ScreenConfig<OwnProps> = ( props ) => ( {
+    title: props.workout.date.toDateString(),
+    headerRight: props.editing ? ( undefined ) : ( <StartEditButton /> )
+  } );
+
+  constructor( props: Props )
   {
-    if( !isWorkoutRoute( navigation.state ) )
-    {
-      throw new Error( 'Route is not a workout route.' );
-    }
-    return {
-      title: navigation.state.params.workout.date.toDateString(),
-      headerRight: navigation.state.params.editing ? ( undefined ) : ( <StartEditButton /> )
+    super( props );
+
+    this.state = {
+      showNewExercise: false
     };
-  };
+  }
 
   render()
   {
-    let route = this.props.navigation.state;
-    if( !isWorkoutRoute( route ) )
-    {
-      throw new Error( 'Route is not a workout route.' );
-    }
-
-    let workout = this.props.workouts[ route.params.workout.id ];
-
     return (
-      <FlatList
-        style={styles.exercisesList}
-        data={workout.exercises}
-        keyExtractor={( item, i ) => i.toString()}
-        renderItem={( { item } ) => <ExerciseListItem exercise={item} />}
-      />
+      <View style={{ flex: 1 }}>
+        <FlatList
+          style={styles.exercisesList}
+          data={this.props.workout.exercises}
+          keyExtractor={( item, i ) => i.toString()}
+          renderItem={( { item } ) => <ExerciseListItem exercise={item} />}
+        />
+        <ActionButton
+          onPress={this.onNewExercisePress}
+          buttonColor={MKColor.DeepOrange}
+        >
+          <Icon name="add" />
+        </ActionButton>
+        <NewExerciseModal
+          show={this.state.showNewExercise}
+          onClose={this.onCloseNewExerciseModal}
+          onAddExercise={this.onAddExercise}
+        />
+      </View>
     );
+  }
+
+  private onNewExercisePress = () =>
+  {
+    this.setState( { showNewExercise: true } );
+  }
+
+  private onCloseNewExerciseModal = () =>
+  {
+    this.setState( { showNewExercise: false } );
+  }
+
+  private onAddExercise = ( exercise: Exercise ) =>
+  {
+    this.props.addExercise( { workoutId: this.props.workout.id, exercise } );
+    this.onCloseNewExerciseModal();
   }
 }
 
@@ -105,10 +147,25 @@ const styles = StyleSheet.create( {
   }
 } );
 
-export default connect<PropsFromState, {}, OwnProps, RootState>(
-  ( state ) => ( {
-    workouts: state.workouts.workouts
-  } ),
+const ConnectedWorkoutScreen = connect<PropsFromState, PropsFromDispatch, OwnProps, RootState>(
+  ( state, props ) =>
+    ( {
+      workouts: state.workouts.workouts
+    } ),
   {
+    addExercise
   }
 )( WorkoutScreen );
+
+export default mapParamsToProps<OwnProps>( ( route ) =>
+{
+  if( !isWorkoutRoute( route ) )
+  {
+    throw new Error( 'Workout missing for WorkoutScreen.' );
+  }
+
+  return {
+    workout: route.params.workout,
+    editing: route.params.editing
+  };
+} )( ConnectedWorkoutScreen );

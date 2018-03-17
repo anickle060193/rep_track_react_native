@@ -9,7 +9,7 @@ import { SwipeListView, RowsMap } from 'react-native-swipe-list-view';
 import uuid from 'uuid/v4';
 
 import { removeWorkout, addWorkout } from '@store/reducers/workouts';
-import { navigateToWorkout, navigateToNewWorkout } from '@store/reducers/navigation';
+import { navigateToWorkout, setWorkoutEditing } from '@store/reducers/navigation';
 
 import { Workout, WorkoutsMap, workoutsMapToArray } from '@utils/workout';
 
@@ -23,7 +23,7 @@ interface PropsFromDispatch
   addWorkout: typeof addWorkout;
   removeWorkout: typeof removeWorkout;
   navigateToWorkout: typeof navigateToWorkout;
-  navigateToNewWorkout: typeof navigateToNewWorkout;
+  setWorkoutEditing: typeof setWorkoutEditing;
 }
 
 type Props = PropsFromState & PropsFromDispatch;
@@ -77,7 +77,14 @@ class Home extends React.Component<Props>
 
   private onNewWorkoutPress = () =>
   {
-    this.props.navigateToNewWorkout();
+    let workout: Workout = {
+      id: uuid(),
+      date: new Date(),
+      exercises: []
+    };
+    this.props.addWorkout( workout );
+    this.props.navigateToWorkout( workout );
+    this.props.setWorkoutEditing( true );
   }
 
   private onRowOpen = ( workoutId: string, rows: RowsMap ) =>
@@ -159,6 +166,6 @@ export default connect<PropsFromState, PropsFromDispatch, {}, RootState>(
     addWorkout,
     removeWorkout,
     navigateToWorkout,
-    navigateToNewWorkout
+    setWorkoutEditing
   }
 )( Home );

@@ -34,7 +34,7 @@ class ExerciseScreen extends React.Component<Props>
     return (
       <FlatList
         style={styles.setsList}
-        data={range( exercise.sets, 1 )}
+        data={range( exercise.setCount, 1 )}
         keyExtractor={( setNumber ) => setNumber}
         renderItem={( { item: setNumber } ) => (
           <SetListItem
@@ -51,7 +51,7 @@ const SetListItem: React.SFC<{ setNumber: number, exercise: Exercise }> = ( { se
   <TouchableNativeFeedback background={TouchableNativeFeedback.SelectableBackground()}>
     <View style={styles.setListItem}>
       <Text style={styles.setListItemTitle}>
-        Set {setNumber}: {exercise.reps} reps @ {exercise.weight} lbs
+        Set {setNumber}: {exercise.repCount} reps @ {exercise.weight} lbs
       </Text>
     </View>
   </TouchableNativeFeedback>

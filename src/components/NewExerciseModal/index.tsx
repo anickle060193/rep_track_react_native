@@ -4,7 +4,7 @@ import Modal from 'react-native-modal';
 import { MKColor, MKTextField } from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { Exercise } from '@utils/workout';
+import { Exercise, createNewExercise } from '@utils/workout';
 
 const WHITESPACE_RE = /^[\s]*$/;
 
@@ -18,8 +18,8 @@ interface Props
 interface State
 {
   name: string;
-  sets: number;
-  reps: number;
+  setCount: number;
+  repCount: number;
   weight: number;
 }
 
@@ -31,8 +31,8 @@ export default class NewExerciseModal extends React.Component<Props, State>
 
     this.state = {
       name: '',
-      sets: 0,
-      reps: 0,
+      setCount: 0,
+      repCount: 0,
       weight: 0
     };
   }
@@ -67,7 +67,7 @@ export default class NewExerciseModal extends React.Component<Props, State>
                 <View style={styles.numberInputContainer}>
                   <TouchableNativeFeedback
                     background={TouchableNativeFeedback.SelectableBackgroundBorderless()}
-                    onPress={this.onDecrementSets}
+                    onPress={this.onDecrementSetCount}
                   >
                     <View style={styles.iconView}>
                       <Icon style={styles.icon} name="remove" />
@@ -79,13 +79,13 @@ export default class NewExerciseModal extends React.Component<Props, State>
                     floatingLabelEnabled={true}
                     keyboardType="numeric"
                     returnKeyType="next"
-                    selectTextOnFocus={this.state.sets === 0}
-                    value={this.state.sets.toString()}
-                    onChangeText={this.onSetsChangeText}
+                    selectTextOnFocus={this.state.setCount === 0}
+                    value={this.state.setCount.toString()}
+                    onChangeText={this.onSetCountChangeText}
                   />
                   <TouchableNativeFeedback
                     background={TouchableNativeFeedback.SelectableBackgroundBorderless()}
-                    onPress={this.onIncrementSets}
+                    onPress={this.onIncrementSetCount}
                   >
                     <View style={styles.iconView}>
                       <Icon style={styles.icon} name="add" />
@@ -96,7 +96,7 @@ export default class NewExerciseModal extends React.Component<Props, State>
                 <View style={styles.numberInputContainer}>
                   <TouchableNativeFeedback
                     background={TouchableNativeFeedback.SelectableBackgroundBorderless()}
-                    onPress={this.onDecrementReps}
+                    onPress={this.onDecrementRepCount}
                   >
                     <View style={styles.iconView}>
                       <Icon style={styles.icon} name="remove" />
@@ -108,13 +108,13 @@ export default class NewExerciseModal extends React.Component<Props, State>
                     floatingLabelEnabled={true}
                     keyboardType="numeric"
                     returnKeyType="next"
-                    selectTextOnFocus={this.state.reps === 0}
-                    value={this.state.reps.toString()}
-                    onChangeText={this.onRepsChangeText}
+                    selectTextOnFocus={this.state.repCount === 0}
+                    value={this.state.repCount.toString()}
+                    onChangeText={this.onRepCountChangeText}
                   />
                   <TouchableNativeFeedback
                     background={TouchableNativeFeedback.SelectableBackgroundBorderless()}
-                    onPress={this.onIncrementReps}
+                    onPress={this.onIncrementRepCount}
                   >
                     <View style={styles.iconView}>
                       <Icon style={styles.icon} name="add" />
@@ -179,34 +179,34 @@ export default class NewExerciseModal extends React.Component<Props, State>
     this.setState( { name: name } );
   }
 
-  private onDecrementSets = () =>
+  private onDecrementSetCount = () =>
   {
-    this.setState( ( { sets } ) => ( { sets: Math.max( 0, sets - 1 ) } ) );
+    this.setState( ( { setCount } ) => ( { setCount: Math.max( 0, setCount - 1 ) } ) );
   }
 
-  private onIncrementSets = () =>
+  private onIncrementSetCount = () =>
   {
-    this.setState( ( { sets } ) => ( { sets: sets + 1 } ) );
+    this.setState( ( { setCount } ) => ( { setCount: setCount + 1 } ) );
   }
 
-  private onSetsChangeText = ( setsText: string ) =>
+  private onSetCountChangeText = ( setCountText: string ) =>
   {
-    this.setState( { sets: parseFloat( setsText ) || 0 } );
+    this.setState( { setCount: parseFloat( setCountText ) || 0 } );
   }
 
-  private onDecrementReps = () =>
+  private onDecrementRepCount = () =>
   {
-    this.setState( ( { reps } ) => ( { reps: Math.max( 0, reps - 1 ) } ) );
+    this.setState( ( { repCount } ) => ( { repCount: Math.max( 0, repCount - 1 ) } ) );
   }
 
-  private onIncrementReps = () =>
+  private onIncrementRepCount = () =>
   {
-    this.setState( ( { reps } ) => ( { reps: reps + 1 } ) );
+    this.setState( ( { repCount } ) => ( { repCount: repCount + 1 } ) );
   }
 
-  private onRepsChangeText = ( repsText: string ) =>
+  private onRepCountChangeText = ( repCountText: string ) =>
   {
-    this.setState( { reps: parseFloat( repsText ) || 0 } );
+    this.setState( { repCount: parseFloat( repCountText ) || 0 } );
   }
 
   private onDecrementWeight = () =>
@@ -228,8 +228,8 @@ export default class NewExerciseModal extends React.Component<Props, State>
   {
     return !(
       WHITESPACE_RE.test( this.state.name )
-      || this.state.sets === 0
-      || this.state.reps === 0
+      || this.state.setCount === 0
+      || this.state.repCount === 0
       || this.state.weight === 0
     );
   }
@@ -238,12 +238,7 @@ export default class NewExerciseModal extends React.Component<Props, State>
   {
     if( this.isExerciseValid() )
     {
-      this.props.onAddExercise( {
-        name: this.state.name,
-        sets: this.state.sets,
-        reps: this.state.reps,
-        weight: this.state.weight
-      } );
+      this.props.onAddExercise( createNewExercise( this.state.name, this.state.setCount, this.state.repCount, this.state.weight ) );
     }
   }
 }

@@ -2,7 +2,7 @@ import actionCreatorFactory from 'typescript-fsa';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import uuid from 'uuid/v4';
 
-import { Workout, WorkoutsMap, Exercise } from '@utils/workout';
+import { Workout, WorkoutsMap, Exercise, createNewExercise } from '@utils/workout';
 
 export interface State
 {
@@ -19,8 +19,8 @@ const initialState: State = {
     id: id,
     date: new Date(),
     exercises: [
-      { name: 'Testing 2', sets: 123, reps: 12345, weight: 134520 },
-      { name: 'Testing', sets: 1, reps: 1, weight: 120 }
+      createNewExercise( 'Testing 2', 123, 12345, 134520 ),
+      createNewExercise( 'Testing', 1, 1, 120 )
     ]
   };
   id = uuid();
@@ -28,8 +28,8 @@ const initialState: State = {
     id: id,
     date: new Date( 0 ),
     exercises: [
-      { name: 'Testing', sets: 1, reps: 1, weight: 120 },
-      { name: 'Testing 2', sets: 123, reps: 12345, weight: 134520 }
+      createNewExercise( 'Testing', 1, 1, 120 ),
+      createNewExercise( 'Testing 2', 123, 12345, 134520 )
     ]
   };
 }

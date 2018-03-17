@@ -131,8 +131,8 @@ const ExerciseListItem: React.SFC<{ exercise: Exercise, onPress: () => void }> =
         <Text style={styles.exerciseListItemName}>{exercise.name}</Text>
       </View>
       <View style={styles.exerciseListItemDetailsColumn}>
-        <Text style={styles.exerciseListItemDetail}>{exercise.sets} sets</Text>
-        <Text style={styles.exerciseListItemDetail}>{exercise.reps} reps</Text>
+        <Text style={styles.exerciseListItemDetail}>{exercise.setCount} sets</Text>
+        <Text style={styles.exerciseListItemDetail}>{exercise.repCount} reps</Text>
       </View>
     </View>
   </TouchableNativeFeedback>

@@ -1,11 +1,25 @@
 import moment from 'moment';
 
+import { range } from '@utils';
+
+export interface ExerciseRep
+{
+  data: number[];
+}
+
+export interface ExerciseSet
+{
+  completed: boolean;
+  reps: ExerciseRep[];
+}
+
 export interface Exercise
 {
   name: string;
-  sets: number;
-  reps: number;
+  setCount: number;
+  repCount: number;
   weight: number;
+  sets: ExerciseSet[];
 }
 
 export interface Workout
@@ -35,4 +49,20 @@ export function workoutsArrayToMap( workouts: Workout[] )
 export function formatWorkoutName( workout: Workout )
 {
   return moment( workout.date ).format( 'L' );
+}
+
+export function createNewExercise( name: string, setCount: number, repCount: number, weight: number ): Exercise
+{
+  return {
+    name,
+    setCount,
+    repCount,
+    weight,
+    sets: range( setCount ).map( () => ( {
+      completed: false,
+      reps: range( repCount ).map( () => ( {
+        data: []
+      } ) )
+    } ) )
+  };
 }

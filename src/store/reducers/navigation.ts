@@ -1,15 +1,9 @@
 import { actionCreatorFactory } from 'typescript-fsa';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
-import { NavigationActions, NavigationLeafRoute } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 
-import { Routes, RouteParams, isWorkoutRoute } from '@utils/routes';
+import { Routes, isWorkoutRoute, isExerciseRoute, RouteLeaf } from '@utils/routes';
 import { Workout } from '@utils/workout';
-
-interface RouteLeaf extends NavigationLeafRoute
-{
-  routeName: Routes;
-  params: RouteParams;
-}
 
 export interface State
 {
@@ -25,9 +19,9 @@ const initialState: State = {
 const actionCreator = actionCreatorFactory();
 
 export const navigateBack = actionCreator( NavigationActions.BACK );
-export const navigateToNewWorkout = actionCreator( 'NAVIGATE_TO_NEW_WORKOUT' );
 export const navigateToWorkout = actionCreator<Workout>( 'NAVIGATE_TO_WORKOUT' );
 export const setWorkoutEditing = actionCreator<boolean>( 'SET_WORKOUT_EDITING' );
+export const navigateToExercise = actionCreator<{ workout: Workout, exerciseIndex: number }>( 'NAVIGATE_TO_EXERCISE' );
 
 const getCurrentRoute = ( state: State ) => state.routes[ state.index ];
 
@@ -41,22 +35,6 @@ const addRoute = ( state: State, route: RouteLeaf ): State => ( {
 } );
 
 export const reducer = reducerWithInitialState<State>( initialState )
-  .case( navigateToNewWorkout, ( state ) =>
-  {
-    let currentRoute = getCurrentRoute( state );
-    if( currentRoute.routeName === Routes.NewWorkout )
-    {
-      return state;
-    }
-    else
-    {
-      return addRoute( state, {
-        key: Routes.NewWorkout,
-        routeName: Routes.NewWorkout,
-        params: { route: Routes.NewWorkout }
-      } );
-    }
-  } )
   .case( navigateToWorkout, ( state, workout ) =>
   {
     let currentRoute = getCurrentRoute( state );
@@ -70,19 +48,20 @@ export const reducer = reducerWithInitialState<State>( initialState )
       return addRoute( state, {
         key: workout.id,
         routeName: Routes.Workout,
-        params: { route: Routes.Workout, workout: workout, editing: false }
+        params: { workout: workout, editing: false }
       } );
     }
   } )
   .case( setWorkoutEditing, ( state, editing ) =>
   {
-    if( isWorkoutRoute( state.routes[ state.index ] ) )
+    let currentRoute = getCurrentRoute( state );
+    if( isWorkoutRoute( currentRoute ) )
     {
       let routes = [ ...state.routes ];
       routes[ state.index ] = {
-        ...state.routes[ state.index ],
+        ...currentRoute,
         params: {
-          ...state.routes[ state.index ].params,
+          ...currentRoute.params,
           editing
         }
       };
@@ -96,6 +75,27 @@ export const reducer = reducerWithInitialState<State>( initialState )
       return state;
     }
   } )
+  .case( navigateToExercise, ( state, { workout, exerciseIndex } ) =>
+  {
+    let currentRoute = getCurrentRoute( state );
+    if( isExerciseRoute( currentRoute )
+      && currentRoute.params.workout.id === workout.id
+      && currentRoute.params.exerciseIndex === exerciseIndex )
+    {
+      return state;
+    }
+    else
+    {
+      return addRoute( state, {
+        key: `${workout.id}_${exerciseIndex}`,
+        routeName: Routes.Exercise,
+        params: {
+          workout,
+          exerciseIndex
+        }
+      } );
+    }
+  } )
   .case( navigateBack, ( state ) =>
   {
     if( state.index === 0 )
@@ -104,9 +104,11 @@ export const reducer = reducerWithInitialState<State>( initialState )
     }
     else
     {
+      let routes = [ ...state.routes ];
+      routes.pop();
       return {
         index: state.index - 1,
-        routes: state.routes.slice( 0, state.index - 2 )
+        routes: routes
       }
     }
   } );

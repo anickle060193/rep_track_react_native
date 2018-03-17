@@ -8,7 +8,7 @@ export interface ScreenComponent<ParamsProps, OwnProps> extends React.ComponentC
   navigationOptions?: ScreenConfig<ParamsProps>;
 }
 
-type ParamsMapper<P> = ( navigation: NavigationRoute ) => P;
+type ParamsMapper<P> = ( route: NavigationRoute ) => P;
 
 export function mapParamsToProps<ParamsProps = {}, OwnProps = {}>( mapper: ParamsMapper<ParamsProps> )
 {

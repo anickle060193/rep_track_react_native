@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Text, FlatList, StyleSheet, View } from 'react-native';
+import { Text, FlatList, StyleSheet, View, TouchableNativeFeedback } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import { MKColor } from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import EditButton from '@components/EditButton';
 import NewExerciseModal from '@components/NewExerciseModal';
 
-import { setWorkoutEditing } from '@store/reducers/navigation';
+import { setWorkoutEditing, navigateToExercise } from '@store/reducers/navigation';
 import { addExercise } from '@store/reducers/workouts';
 
 import { WorkoutsMap, Exercise, Workout } from '@utils/workout';
@@ -30,6 +30,7 @@ interface PropsFromState
 interface PropsFromDispatch
 {
   addExercise: typeof addExercise;
+  navigateToExercise: typeof navigateToExercise;
 }
 
 interface OwnProps
@@ -70,8 +71,13 @@ class WorkoutScreen extends React.Component<Props, State>
         <FlatList
           style={styles.exercisesList}
           data={workout.exercises}
-          keyExtractor={( item, i ) => i.toString()}
-          renderItem={( { item } ) => <ExerciseListItem exercise={item} />}
+          keyExtractor={( exercise, i ) => i.toString()}
+          renderItem={( { item: exercise, index } ) => (
+            <ExerciseListItem
+              exercise={exercise}
+              onPress={() => this.onExerciseClick( index )}
+            />
+          )}
         />
         <ActionButton
           onPress={this.onNewExercisePress}
@@ -103,18 +109,33 @@ class WorkoutScreen extends React.Component<Props, State>
     this.props.addExercise( { workoutId: this.props.workout.id, exercise } );
     this.onCloseNewExerciseModal();
   }
+
+  private onExerciseClick = ( exerciseIndex: number ) =>
+  {
+    let workout = this.props.workouts[ this.props.workout.id ];
+
+    this.props.navigateToExercise( {
+      workout: workout,
+      exerciseIndex: exerciseIndex
+    } );
+  }
 }
 
-const ExerciseListItem: React.SFC<{ exercise: Exercise }> = ( { exercise } ) => (
-  <View style={styles.exerciseListItem}>
-    <View style={styles.excerciseListItemNameColumn}>
-      <Text style={styles.exerciseListItemName}>{exercise.name}</Text>
+const ExerciseListItem: React.SFC<{ exercise: Exercise, onPress: () => void }> = ( { exercise, onPress } ) => (
+  <TouchableNativeFeedback
+    background={TouchableNativeFeedback.SelectableBackground()}
+    onPress={onPress}
+  >
+    <View style={styles.exerciseListItem}>
+      <View style={styles.excerciseListItemNameColumn}>
+        <Text style={styles.exerciseListItemName}>{exercise.name}</Text>
+      </View>
+      <View style={styles.exerciseListItemDetailsColumn}>
+        <Text style={styles.exerciseListItemDetail}>{exercise.sets} sets</Text>
+        <Text style={styles.exerciseListItemDetail}>{exercise.reps} reps</Text>
+      </View>
     </View>
-    <View style={styles.exerciseListItemDetailsColumn}>
-      <Text style={styles.exerciseListItemDetail}>{exercise.sets} sets</Text>
-      <Text style={styles.exerciseListItemDetail}>{exercise.reps} reps</Text>
-    </View>
-  </View>
+  </TouchableNativeFeedback>
 );
 
 const styles = StyleSheet.create( {
@@ -155,7 +176,8 @@ const ConnectedWorkoutScreen = connect<PropsFromState, PropsFromDispatch, OwnPro
       workouts: state.workouts.workouts
     } ),
   {
-    addExercise
+    addExercise,
+    navigateToExercise
   }
 )( WorkoutScreen );
 
@@ -163,7 +185,7 @@ export default mapParamsToProps<OwnProps>( ( route ) =>
 {
   if( !isWorkoutRoute( route ) )
   {
-    throw new Error( 'Workout missing for WorkoutScreen.' );
+    throw new Error( 'Route is invalid Workout route.' );
   }
 
   return {

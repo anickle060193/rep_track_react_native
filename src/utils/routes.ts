@@ -4,8 +4,8 @@ import { NavigationLeafRoute } from "react-navigation";
 export const enum Routes
 {
   Workouts = 'Workouts',
-  NewWorkout = 'NewWorkout',
-  Workout = 'Workout'
+  Workout = 'Workout',
+  Exercise = 'Exercise'
 }
 
 export interface WorkoutRouteParams
@@ -14,9 +14,16 @@ export interface WorkoutRouteParams
   editing: boolean;
 }
 
+export interface ExerciseRouteParams
+{
+  workout: Workout;
+  exerciseIndex: number;
+}
+
 export type RouteParams = (
   {} |
-  WorkoutRouteParams
+  WorkoutRouteParams |
+  ExerciseRouteParams
 );
 
 interface BaseRouteLeaf<R extends Routes, P extends RouteParams = {}> extends NavigationLeafRoute
@@ -25,13 +32,28 @@ interface BaseRouteLeaf<R extends Routes, P extends RouteParams = {}> extends Na
   params: P;
 }
 
+type WorkoutRouteLeaf = BaseRouteLeaf<Routes.Workout, WorkoutRouteParams>;
+type ExerciseRouteLeaf = BaseRouteLeaf<Routes.Exercise, ExerciseRouteParams>;
+
 export type RouteLeaf = (
   BaseRouteLeaf<Routes.Workouts, {}> |
-  BaseRouteLeaf<Routes.NewWorkout, {}> |
-  BaseRouteLeaf<Routes.Workout, WorkoutRouteParams>
+  WorkoutRouteLeaf |
+  ExerciseRouteLeaf
 );
 
-export function isWorkoutRoute( route: RouteLeaf | NavigationLeafRoute ): route is BaseRouteLeaf<Routes.Workout, WorkoutRouteParams>
+export function isWorkoutRoute( route: RouteLeaf | NavigationLeafRoute | undefined ): route is WorkoutRouteLeaf
 {
-  return ( !!route && route.routeName === Routes.Workout );
+  return ( !!route
+    && route.routeName === Routes.Workout
+    && !!route.params
+    && !!( ( route as WorkoutRouteLeaf ).params.workout ) );
+}
+
+export function isExerciseRoute( route: RouteLeaf | NavigationLeafRoute ): route is ExerciseRouteLeaf
+{
+  return ( !!route
+    && route.routeName === Routes.Exercise
+    && !!route.params
+    && !!( ( route as ExerciseRouteLeaf ).params.workout )
+    && ( route as ExerciseRouteLeaf ).params.exerciseIndex >= 0 );
 }

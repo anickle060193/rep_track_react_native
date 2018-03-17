@@ -1,5 +1,6 @@
 import { createStore, Middleware, applyMiddleware } from 'redux';
-import * as ReduxLogger from 'redux-logger';
+import * as ReduxLoggerModule from 'redux-logger';
+import * as ReduxImmutableStateInvariantModule from 'redux-immutable-state-invariant';
 
 import { navigationMiddleware } from '@components/AppNav';
 
@@ -11,7 +12,10 @@ middleWares.push( navigationMiddleware );
 
 if( __DEV__ )
 {
-  const { createLogger } = require( 'redux-logger' ) as typeof ReduxLogger;
+  const { default: reduxImmutableStateInvariantModule } = require( 'redux-immutable-state-invariant' ) as typeof ReduxImmutableStateInvariantModule;
+  middleWares.push( reduxImmutableStateInvariantModule() );
+
+  const { createLogger } = require( 'redux-logger' ) as typeof ReduxLoggerModule;
   middleWares.unshift( createLogger( {
     colors: false,
     collapsed: false,

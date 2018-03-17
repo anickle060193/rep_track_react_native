@@ -24,7 +24,7 @@ class ExerciseScreen extends React.Component<Props>
 {
   static navigationOptions: ScreenConfig<OwnProps> = ( { workout, exerciseIndex } ) => ( {
     title: `${workout.exercises[ exerciseIndex ].name} - ${formatWorkoutName( workout )}`
-  } );
+  } )
 
   render()
   {

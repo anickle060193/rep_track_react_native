@@ -1,5 +1,6 @@
-import { Workout } from "@utils/workout";
-import { NavigationLeafRoute } from "react-navigation";
+import { NavigationLeafRoute } from 'react-navigation';
+
+import { Workout } from '@utils/workout';
 
 export const enum Routes
 {

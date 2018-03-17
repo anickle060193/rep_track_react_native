@@ -14,7 +14,7 @@ export interface State
 const initialState: State = {
   index: 0,
   routes: [ { key: Routes.Workouts, routeName: Routes.Workouts, params: { route: Routes.Workouts } } ]
-}
+};
 
 const actionCreator = actionCreatorFactory();
 
@@ -109,6 +109,6 @@ export const reducer = reducerWithInitialState<State>( initialState )
       return {
         index: state.index - 1,
         routes: routes
-      }
+      };
     }
   } );

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TouchableNativeFeedback, View } from "react-native";
+import { TouchableNativeFeedback, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const EditButton: React.SFC<{

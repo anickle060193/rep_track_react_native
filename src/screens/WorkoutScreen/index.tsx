@@ -18,8 +18,8 @@ import { mapParamsToProps, ScreenConfig } from '@utils/navigation';
 const StartEditButton = connect<{}, { setWorkoutEditing: typeof setWorkoutEditing }, {}, RootState>(
   null,
   { setWorkoutEditing }
-)( ( { setWorkoutEditing } ) => (
-  <EditButton onPress={() => setWorkoutEditing( true )} />
+)( ( props ) => (
+  <EditButton onPress={() => props.setWorkoutEditing( true )} />
 ) );
 
 interface PropsFromState
@@ -51,7 +51,7 @@ class WorkoutScreen extends React.Component<Props, State>
   static navigationOptions: ScreenConfig<OwnProps> = ( props ) => ( {
     title: formatWorkoutName( props.workout ),
     headerRight: props.editing ? ( undefined ) : ( <StartEditButton /> )
-  } );
+  } )
 
   constructor( props: Props )
   {

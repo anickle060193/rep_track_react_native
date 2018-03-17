@@ -30,7 +30,7 @@ export function mapParamsToProps<ParamsProps = {}, OwnProps = {}>( mapper: Param
         {
           return {};
         }
-      };
+      }
 
       render()
       {
@@ -38,7 +38,7 @@ export function mapParamsToProps<ParamsProps = {}, OwnProps = {}>( mapper: Param
         delete propsCopy.navigation;
         delete propsCopy.navigationOptions;
         delete propsCopy.screenProps;
-        delete ( propsCopy as any ).children;
+        delete ( propsCopy as any ).children; // tslint:disable-line:no-any
 
         let paramProps = mapper( this.props.navigation.state );
 

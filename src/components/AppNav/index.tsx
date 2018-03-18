@@ -2,13 +2,14 @@ import * as React from 'react';
 import { BackHandler } from 'react-native';
 import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { StackNavigator, addNavigationHelpers } from 'react-navigation';
+import { StackNavigator, addNavigationHelpers, NavigationRouteConfig } from 'react-navigation';
 import { createReactNavigationReduxMiddleware, createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 
 import WorkoutsScreen from '@screens/WorkoutsScreen';
 import WorkoutScreen from '@screens/WorkoutScreen';
 import ExerciseScreen from '@screens/ExerciseScreen';
 import ExerciseSetScreen from '@screens/ExerciseSetScreen';
+import ConnectIQDevicesScreen from '@screens/ConnectIQDevicesScreen';
 
 import { State as NavigationState, navigateBack } from '@store/reducers/navigation';
 
@@ -22,8 +23,9 @@ export const AppNavigator = StackNavigator(
     [ Routes.Workouts ]: { screen: WorkoutsScreen },
     [ Routes.Workout ]: { screen: WorkoutScreen },
     [ Routes.Exercise ]: { screen: ExerciseScreen },
-    [ Routes.ExerciseSet ]: { screen: ExerciseSetScreen }
-  },
+    [ Routes.ExerciseSet ]: { screen: ExerciseSetScreen },
+    [ Routes.ConnectIQ ]: { screen: ConnectIQDevicesScreen }
+  } as {[ key in Routes ]: NavigationRouteConfig },
   {
     initialRouteName: Routes.Workouts,
 

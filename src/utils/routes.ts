@@ -7,7 +7,8 @@ export const enum Routes
   Workouts = 'Workouts',
   Workout = 'Workout',
   Exercise = 'Exercise',
-  ExerciseSet = 'ExerciseSet'
+  ExerciseSet = 'ExerciseSet',
+  ConnectIQ = 'ConnectIQ'
 }
 
 export interface WorkoutRouteParams
@@ -47,7 +48,7 @@ type ExerciseRouteLeaf = BaseRouteLeaf<Routes.Exercise, ExerciseRouteParams>;
 type ExerciseSetRouteLeaf = BaseRouteLeaf<Routes.ExerciseSet, ExerciseSetRouteParams>;
 
 export type RouteLeaf = (
-  BaseRouteLeaf<Routes.Workouts, {}> |
+  BaseRouteLeaf<Routes.Workouts | Routes.ConnectIQ, {}> |
   WorkoutRouteLeaf |
   ExerciseRouteLeaf |
   ExerciseSetRouteLeaf

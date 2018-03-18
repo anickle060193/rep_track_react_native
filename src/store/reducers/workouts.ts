@@ -34,7 +34,7 @@ const initialState: State = {
   };
 }
 
-const actionCreator = actionCreatorFactory( 'workouts' );
+const actionCreator = actionCreatorFactory();
 
 export const addWorkout = actionCreator<Workout>( 'ADD_WORKOUT' );
 export const removeWorkout = actionCreator<string>( 'REMOVE_WORKOUT' );

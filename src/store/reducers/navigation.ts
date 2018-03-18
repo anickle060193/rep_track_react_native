@@ -23,6 +23,7 @@ export const navigateToWorkout = actionCreator<Workout>( 'NAVIGATE_TO_WORKOUT' )
 export const setWorkoutEditing = actionCreator<boolean>( 'SET_WORKOUT_EDITING' );
 export const navigateToExercise = actionCreator<{ workout: Workout, exerciseIndex: number }>( 'NAVIGATE_TO_EXERCISE' );
 export const navigateToExerciseSet = actionCreator<{ workout: Workout, exerciseIndex: number, setIndex: number }>( 'NAVIGATE_TO_EXERCISE_SET' );
+export const navigateToConnectIQ = actionCreator( 'NAVIGATE_TO_CONNECT_IQ' );
 
 const getCurrentRoute = ( state: State ) => state.routes[ state.index ];
 
@@ -117,6 +118,22 @@ export const reducer = reducerWithInitialState<State>( initialState )
           exerciseIndex,
           setIndex
         }
+      } );
+    }
+  } )
+  .case( navigateToConnectIQ, ( state ) =>
+  {
+    let currentRoute = getCurrentRoute( state );
+    if( currentRoute.routeName === Routes.ConnectIQ )
+    {
+      return state;
+    }
+    else
+    {
+      return addRoute( state, {
+        key: Routes.ConnectIQ,
+        routeName: Routes.ConnectIQ,
+        params: {}
       } );
     }
   } )

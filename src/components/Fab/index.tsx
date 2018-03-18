@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, Animated, ViewStyle } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { MKColor } from 'react-native-material-kit';
 import Touchable from 'react-native-platform-touchable';
@@ -9,6 +9,9 @@ const FAB_ELEVATION = 4;
 const FAB_SIZE = 56;
 const FAB_ICON_SIZE = 24;
 
+const FAB_HIDE_ANIMATION_DURATION = 250;
+const FAB_HIDDEN_OFFSET = 2 * FAB_SIZE + FAB_MARGIN;
+
 interface Props
 {
   onPress: () => void;
@@ -16,27 +19,56 @@ interface Props
 
   show?: boolean;
   backgroundColor?: string;
-  selfPosition?: boolean;
 }
 
-export default class Fab extends React.Component<Props>
+interface State
+{
+  offsetY: Animated.Value;
+}
+
+export default class Fab extends React.Component<Props, State>
 {
   static defaultProps: Partial<Props> = {
-    selfPosition: true,
     backgroundColor: MKColor.DeepOrange,
     show: true
   };
 
+  constructor( props: Props )
+  {
+    super( props );
+
+    this.state = {
+      offsetY: new Animated.Value( this.props.show ? 0 : FAB_HIDDEN_OFFSET )
+    };
+  }
+
+  componentWillReceiveProps( newProps: Props )
+  {
+    if( this.props.show !== newProps.show )
+    {
+      Animated.timing(
+        this.state.offsetY,
+        {
+          toValue: newProps.show ? 0 : FAB_HIDDEN_OFFSET,
+          duration: FAB_HIDE_ANIMATION_DURATION
+        }
+      ).start();
+    }
+  }
+
   render()
   {
     return (
-      <View
+      <Animated.View
         style={[
           styles.fabContainer,
           styles.fab,
-          this.props.selfPosition ? styles.selfPositioned : undefined,
-          this.props.show ? undefined : styles.hide
-        ]}
+          {
+            transform: [ {
+              translateY: this.state.offsetY as any as number // tslint:disable-line:no-any
+            } ]
+          } as ViewStyle
+        ] as ViewStyle}
       >
         <Touchable
           style={[
@@ -54,13 +86,17 @@ export default class Fab extends React.Component<Props>
             style={styles.fabIcon}
           />
         </Touchable>
-      </View>
+      </Animated.View>
     );
   }
 }
 
 const styles = StyleSheet.create( {
   fabContainer: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+    margin: FAB_MARGIN,
     elevation: FAB_ELEVATION
   },
   fab: {
@@ -72,14 +108,5 @@ const styles = StyleSheet.create( {
   },
   fabIcon: {
     fontSize: FAB_ICON_SIZE
-  },
-  selfPositioned: {
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
-    margin: FAB_MARGIN
-  },
-  hide: {
-    display: 'none'
   }
 } );

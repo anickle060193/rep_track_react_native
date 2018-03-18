@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Text, FlatList, StyleSheet, View, TouchableNativeFeedback } from 'react-native';
-import ActionButton from 'react-native-action-button';
-import { MKColor } from 'react-native-material-kit';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import Fab from '@components/Fab';
 import EditButton from '@components/EditButton';
+import DoneButton from '@components/DoneButton';
 import NewExerciseModal from '@components/NewExerciseModal';
 
 import { setWorkoutEditing, navigateToExercise } from '@store/reducers/navigation';
@@ -15,11 +14,29 @@ import { WorkoutsMap, Exercise, Workout, formatWorkoutName } from '@utils/workou
 import { isWorkoutRoute } from '@utils/routes';
 import { mapParamsToProps, ScreenConfig } from '@utils/navigation';
 
-const StartEditButton = connect<{}, { setWorkoutEditing: typeof setWorkoutEditing }, {}, RootState>(
+interface EditButtonPropsFromDispatch
+{
+  setWorkoutEditing: typeof setWorkoutEditing;
+}
+
+interface EditButtonOwnProps
+{
+  editing: boolean;
+}
+
+type EditButtonProps = EditButtonPropsFromDispatch & EditButtonOwnProps;
+
+const ConnectedEditButton = connect<{}, EditButtonPropsFromDispatch, EditButtonOwnProps, RootState>(
   null,
   { setWorkoutEditing }
-)( ( props ) => (
-  <EditButton onPress={() => props.setWorkoutEditing( true )} />
+)( ( props: EditButtonProps ) => (
+  props.editing ?
+    (
+      <DoneButton onPress={() => props.setWorkoutEditing( false )} />
+    ) :
+    (
+      <EditButton onPress={() => props.setWorkoutEditing( true )} />
+    )
 ) );
 
 interface PropsFromState
@@ -50,7 +67,7 @@ class WorkoutScreen extends React.Component<Props, State>
 {
   static navigationOptions: ScreenConfig<OwnProps> = ( props ) => ( {
     title: formatWorkoutName( props.workout ),
-    headerRight: props.editing ? ( undefined ) : ( <StartEditButton /> )
+    headerRight: ( <ConnectedEditButton editing={props.editing} /> )
   } )
 
   constructor( props: Props )
@@ -79,12 +96,11 @@ class WorkoutScreen extends React.Component<Props, State>
             />
           )}
         />
-        <ActionButton
+        <Fab
+          iconName="add"
           onPress={this.onNewExercisePress}
-          buttonColor={MKColor.DeepOrange}
-        >
-          <Icon name="add" />
-        </ActionButton>
+          show={this.props.editing}
+        />
         <NewExerciseModal
           show={this.state.showNewExercise}
           onClose={this.onCloseNewExerciseModal}

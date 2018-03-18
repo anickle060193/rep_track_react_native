@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { View, Text, StyleSheet, TouchableNativeFeedback } from 'react-native';
 import { NavigationScreenOptions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import ActionButton from 'react-native-action-button';
-import { MKColor } from 'react-native-material-kit';
 import { SwipeListView, RowsMap } from 'react-native-swipe-list-view';
 import uuid from 'uuid/v4';
+
+import Fab from '@components/Fab';
 
 import { removeWorkout, addWorkout } from '@store/reducers/workouts';
 import { navigateToWorkout, setWorkoutEditing } from '@store/reducers/navigation';
@@ -65,12 +65,10 @@ class WorkoutsScreen extends React.Component<Props>
           )}
           onRowOpen={this.onRowOpen}
         />
-        <ActionButton
+        <Fab
           onPress={this.onNewWorkoutPress}
-          buttonColor={MKColor.DeepOrange}
-        >
-          <Icon name="add" />
-        </ActionButton>
+          iconName="add"
+        />
       </View>
     );
   }

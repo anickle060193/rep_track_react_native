@@ -1,11 +1,16 @@
 import * as React from 'react';
-import { StatusBar, View } from 'react-native';
+import { StatusBar, View, UIManager } from 'react-native';
 import { Provider } from 'react-redux';
 import KeepAwake from 'react-native-keep-awake';
 
 import AppNav from '@components/AppNav';
 
 import store from '@store';
+
+if( UIManager.setLayoutAnimationEnabledExperimental )
+{
+  UIManager.setLayoutAnimationEnabledExperimental( true );
+}
 
 export default class App extends React.Component
 {

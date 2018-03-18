@@ -2,6 +2,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { FlatList, Text, StyleSheet, TouchableNativeFeedback, View } from 'react-native';
 
+import { navigateToExerciseSet } from '@store/reducers/navigation';
+
 import { range } from '@utils';
 import { isExerciseRoute } from '@utils/routes';
 import { ScreenConfig, mapParamsToProps } from '@utils/navigation';
@@ -12,13 +14,18 @@ interface PropsFromState
   workouts: WorkoutsMap;
 }
 
+interface PropsFromDispatch
+{
+  navigateToExerciseSet: typeof navigateToExerciseSet;
+}
+
 interface OwnProps
 {
   workout: Workout;
   exerciseIndex: number;
 }
 
-type Props = PropsFromState & OwnProps;
+type Props = PropsFromState & PropsFromDispatch & OwnProps;
 
 class ExerciseScreen extends React.Component<Props>
 {
@@ -34,24 +41,43 @@ class ExerciseScreen extends React.Component<Props>
     return (
       <FlatList
         style={styles.setsList}
-        data={range( exercise.setCount, 1 )}
-        keyExtractor={( setNumber ) => setNumber}
-        renderItem={( { item: setNumber } ) => (
+        data={range( exercise.sets.length )}
+        keyExtractor={( setIndex: number ) => setIndex.toString()}
+        renderItem={( { item: setIndex } ) => (
           <SetListItem
-            setNumber={setNumber}
+            setIndex={setIndex}
             exercise={exercise}
+            onPress={() => this.onExerciseSetPress( setIndex )}
           />
         )}
       />
     );
   }
+
+  private onExerciseSetPress = ( setIndex: number ) =>
+  {
+    let workout = this.props.workouts[ this.props.workout.id ];
+    this.props.navigateToExerciseSet( {
+      workout,
+      exerciseIndex: this.props.exerciseIndex,
+      setIndex
+    } );
+  }
 }
 
-const SetListItem: React.SFC<{ setNumber: number, exercise: Exercise }> = ( { setNumber, exercise } ) => (
-  <TouchableNativeFeedback background={TouchableNativeFeedback.SelectableBackground()}>
+const SetListItem: React.SFC<{ setIndex: number, exercise: Exercise, onPress: () => void }> = ( { setIndex, exercise, onPress } ) => (
+  <TouchableNativeFeedback
+    background={TouchableNativeFeedback.SelectableBackground()}
+    onPress={onPress}
+  >
     <View style={styles.setListItem}>
-      <Text style={styles.setListItemTitle}>
-        Set {setNumber}: {exercise.repCount} reps @ {exercise.weight} lbs
+      <Text
+        style={[
+          styles.setListItemTitle,
+          exercise.sets[ setIndex ].completed ? styles.setListItemCompleted : {}
+        ]}
+      >
+        Set {setIndex + 1}: {exercise.repCount} reps @ {exercise.weight} lbs
       </Text>
     </View>
   </TouchableNativeFeedback>
@@ -62,6 +88,7 @@ const styles = StyleSheet.create( {
     flex: 1
   },
   setListItem: {
+    flexDirection: 'row',
     padding: 16,
     backgroundColor: 'white',
     borderBottomColor: 'lightgray',
@@ -69,14 +96,18 @@ const styles = StyleSheet.create( {
   },
   setListItemTitle: {
     fontSize: 22
+  },
+  setListItemCompleted: {
+    textDecorationLine: 'line-through'
   }
 } );
 
-const ConnectedExerciseScreen = connect<PropsFromState, {}, OwnProps, RootState>(
+const ConnectedExerciseScreen = connect<PropsFromState, PropsFromDispatch, OwnProps, RootState>(
   ( state ) => ( {
     workouts: state.workouts.workouts
   } ),
   {
+    navigateToExerciseSet
   }
 )( ExerciseScreen );
 

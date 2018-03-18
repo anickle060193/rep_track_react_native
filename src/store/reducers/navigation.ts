@@ -2,7 +2,7 @@ import { actionCreatorFactory } from 'typescript-fsa';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import { NavigationActions } from 'react-navigation';
 
-import { Routes, isWorkoutRoute, isExerciseRoute, RouteLeaf } from '@utils/routes';
+import { Routes, isWorkoutRoute, isExerciseRoute, RouteLeaf, isExerciseSetRoute } from '@utils/routes';
 import { Workout } from '@utils/workout';
 
 export interface State
@@ -22,6 +22,7 @@ export const navigateBack = actionCreator( NavigationActions.BACK );
 export const navigateToWorkout = actionCreator<Workout>( 'NAVIGATE_TO_WORKOUT' );
 export const setWorkoutEditing = actionCreator<boolean>( 'SET_WORKOUT_EDITING' );
 export const navigateToExercise = actionCreator<{ workout: Workout, exerciseIndex: number }>( 'NAVIGATE_TO_EXERCISE' );
+export const navigateToExerciseSet = actionCreator<{ workout: Workout, exerciseIndex: number, setIndex: number }>( 'NAVIGATE_TO_EXERCISE_SET' );
 
 const getCurrentRoute = ( state: State ) => state.routes[ state.index ];
 
@@ -46,7 +47,7 @@ export const reducer = reducerWithInitialState<State>( initialState )
     else
     {
       return addRoute( state, {
-        key: workout.id,
+        key: `workout:${workout.id}`,
         routeName: Routes.Workout,
         params: { workout: workout, editing: false }
       } );
@@ -87,11 +88,34 @@ export const reducer = reducerWithInitialState<State>( initialState )
     else
     {
       return addRoute( state, {
-        key: `${workout.id}_${exerciseIndex}`,
+        key: `workout:${workout.id}_exercise:${exerciseIndex}`,
         routeName: Routes.Exercise,
         params: {
           workout,
           exerciseIndex
+        }
+      } );
+    }
+  } )
+  .case( navigateToExerciseSet, ( state, { workout, exerciseIndex, setIndex } ) =>
+  {
+    let currentRoute = getCurrentRoute( state );
+    if( isExerciseSetRoute( currentRoute )
+      && currentRoute.params.workout.id === workout.id
+      && currentRoute.params.exerciseIndex === exerciseIndex
+      && currentRoute.params.setIndex === setIndex )
+    {
+      return state;
+    }
+    else
+    {
+      return addRoute( state, {
+        key: `workout:${workout.id}_exercise:${exerciseIndex}_set:${setIndex}`,
+        routeName: Routes.ExerciseSet,
+        params: {
+          workout,
+          exerciseIndex,
+          setIndex
         }
       } );
     }

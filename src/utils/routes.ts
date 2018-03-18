@@ -6,7 +6,8 @@ export const enum Routes
 {
   Workouts = 'Workouts',
   Workout = 'Workout',
-  Exercise = 'Exercise'
+  Exercise = 'Exercise',
+  ExerciseSet = 'ExerciseSet'
 }
 
 export interface WorkoutRouteParams
@@ -21,10 +22,18 @@ export interface ExerciseRouteParams
   exerciseIndex: number;
 }
 
+export interface ExerciseSetRouteParams
+{
+  workout: Workout;
+  exerciseIndex: number;
+  setIndex: number;
+}
+
 export type RouteParams = (
   {} |
   WorkoutRouteParams |
-  ExerciseRouteParams
+  ExerciseRouteParams |
+  ExerciseSetRouteParams
 );
 
 interface BaseRouteLeaf<R extends Routes, P extends RouteParams = {}> extends NavigationLeafRoute
@@ -35,26 +44,46 @@ interface BaseRouteLeaf<R extends Routes, P extends RouteParams = {}> extends Na
 
 type WorkoutRouteLeaf = BaseRouteLeaf<Routes.Workout, WorkoutRouteParams>;
 type ExerciseRouteLeaf = BaseRouteLeaf<Routes.Exercise, ExerciseRouteParams>;
+type ExerciseSetRouteLeaf = BaseRouteLeaf<Routes.ExerciseSet, ExerciseSetRouteParams>;
 
 export type RouteLeaf = (
   BaseRouteLeaf<Routes.Workouts, {}> |
   WorkoutRouteLeaf |
-  ExerciseRouteLeaf
+  ExerciseRouteLeaf |
+  ExerciseSetRouteLeaf
 );
 
-export function isWorkoutRoute( route: RouteLeaf | NavigationLeafRoute | undefined ): route is WorkoutRouteLeaf
+type PossibleRoute = RouteLeaf | NavigationLeafRoute | undefined;
+
+export function isWorkoutRoute( route: PossibleRoute ): route is WorkoutRouteLeaf
 {
-  return ( !!route
+  return (
+    !!route
     && route.routeName === Routes.Workout
     && !!route.params
-    && !!( ( route as WorkoutRouteLeaf ).params.workout ) );
+    && !!( ( route as WorkoutRouteLeaf ).params.workout )
+  );
 }
 
-export function isExerciseRoute( route: RouteLeaf | NavigationLeafRoute ): route is ExerciseRouteLeaf
+export function isExerciseRoute( route: PossibleRoute ): route is ExerciseRouteLeaf
 {
-  return ( !!route
+  return (
+    !!route
     && route.routeName === Routes.Exercise
     && !!route.params
     && !!( ( route as ExerciseRouteLeaf ).params.workout )
-    && ( route as ExerciseRouteLeaf ).params.exerciseIndex >= 0 );
+    && ( route as ExerciseRouteLeaf ).params.exerciseIndex >= 0
+  );
+}
+
+export function isExerciseSetRoute( route: PossibleRoute ): route is ExerciseSetRouteLeaf
+{
+  return (
+    !!route
+    && route.routeName === Routes.ExerciseSet
+    && !!route.params
+    && !!( ( route as ExerciseSetRouteLeaf ).params.workout )
+    && ( route as ExerciseSetRouteLeaf ).params.exerciseIndex >= 0
+    && ( route as ExerciseSetRouteLeaf ).params.setIndex >= 0
+  );
 }

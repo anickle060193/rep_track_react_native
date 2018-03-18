@@ -19,8 +19,8 @@ const initialState: State = {
     id: id,
     date: new Date(),
     exercises: [
-      createNewExercise( 'Testing 2', 123, 12345, 134520 ),
-      createNewExercise( 'Testing', 1, 1, 120 )
+      createNewExercise( 'Testing 2', 20, 20, 20 ),
+      createNewExercise( 'Testing', 1, 1, 20 )
     ]
   };
   id = uuid();
@@ -28,8 +28,8 @@ const initialState: State = {
     id: id,
     date: new Date( 0 ),
     exercises: [
-      createNewExercise( 'Testing', 1, 1, 120 ),
-      createNewExercise( 'Testing 2', 123, 12345, 134520 )
+      createNewExercise( 'Testing', 1, 1, 20 ),
+      createNewExercise( 'Testing 2', 20, 20, 20 )
     ]
   };
 }
@@ -39,7 +39,8 @@ const actionCreator = actionCreatorFactory( 'workouts' );
 export const addWorkout = actionCreator<Workout>( 'ADD_WORKOUT' );
 export const removeWorkout = actionCreator<string>( 'REMOVE_WORKOUT' );
 export const addExercise = actionCreator<{ workoutId: string, exercise: Exercise }>( 'ADD_EXERCISE' );
-export const removeExercise = actionCreator<{ workoutId: number, exerciseIndex: number }>( 'REMOVE_EXERCISE' );
+export const removeExercise = actionCreator<{ workoutId: string, exerciseIndex: number }>( 'REMOVE_EXERCISE' );
+export const markExerciseSetComplete = actionCreator<{ workoutId: string, exerciseIndex: number, setIndex: number }>( 'MARK_EXERCISE_SET_COMPLETE' );
 
 export const reducer = reducerWithInitialState( initialState )
   .case( addWorkout, ( state, workout ) =>
@@ -83,6 +84,34 @@ export const reducer = reducerWithInitialState( initialState )
         [ workoutId ]: {
           ...state.workouts[ workoutId ],
           exercises: exercises
+        }
+      }
+    };
+  } )
+  .case( markExerciseSetComplete, ( state, { workoutId, exerciseIndex, setIndex } ) =>
+  {
+    let exercises = [ ...state.workouts[ workoutId ].exercises ];
+    let exercise = exercises[ exerciseIndex ];
+    let sets = [ ...exercise.sets ];
+    let set = sets[ setIndex ];
+
+    sets[ setIndex ] = {
+      ...set,
+      completed: true
+    };
+
+    exercises[ exerciseIndex ] = {
+      ...exercise,
+      sets
+    };
+
+    return {
+      ...state,
+      workouts: {
+        ...state.workouts,
+        [ workoutId ]: {
+          ...state.workouts[ workoutId ],
+          exercises
         }
       }
     };

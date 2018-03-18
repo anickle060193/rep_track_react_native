@@ -8,6 +8,7 @@ import { createReactNavigationReduxMiddleware, createReduxBoundAddListener } fro
 import WorkoutsScreen from '@screens/WorkoutsScreen';
 import WorkoutScreen from '@screens/WorkoutScreen';
 import ExerciseScreen from '@screens/ExerciseScreen';
+import ExerciseSetScreen from '@screens/ExerciseSetScreen';
 
 import { State as NavigationState, navigateBack } from '@store/reducers/navigation';
 
@@ -20,7 +21,8 @@ export const AppNavigator = StackNavigator(
   {
     [ Routes.Workouts ]: { screen: WorkoutsScreen },
     [ Routes.Workout ]: { screen: WorkoutScreen },
-    [ Routes.Exercise ]: { screen: ExerciseScreen }
+    [ Routes.Exercise ]: { screen: ExerciseScreen },
+    [ Routes.ExerciseSet ]: { screen: ExerciseSetScreen }
   },
   {
     initialRouteName: Routes.Workouts,

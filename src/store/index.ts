@@ -1,6 +1,5 @@
 import { createStore, Middleware, applyMiddleware } from 'redux';
 import * as ReduxLoggerModule from 'redux-logger';
-import * as ReduxImmutableStateInvariantModule from 'redux-immutable-state-invariant';
 
 import { navigationMiddleware } from '@components/AppNav';
 
@@ -12,9 +11,6 @@ middleWares.push( navigationMiddleware );
 
 if( __DEV__ )
 {
-  const { default: reduxImmutableStateInvariantModule } = require( 'redux-immutable-state-invariant' ) as typeof ReduxImmutableStateInvariantModule;
-  middleWares.push( reduxImmutableStateInvariantModule() );
-
   const { createLogger } = require( 'redux-logger' ) as typeof ReduxLoggerModule;
   middleWares.unshift( createLogger( {
     colors: false,
@@ -27,12 +23,16 @@ if( __DEV__ )
 
 const store = createStore<RootState>( rootReducer, applyMiddleware( ...middleWares ) );
 
-if( module.hot )
+if( __DEV__ )
 {
-  module.hot.accept( '@store/reducers', () =>
+  if( module.hot )
   {
-    store.replaceReducer( rootReducer );
-  } );
+    module.hot.accept( () =>
+    {
+      const newRootReducer = require( '@store/reducers' ).default;
+      store.replaceReducer( newRootReducer );
+    } );
+  }
 }
 
 export default store;

@@ -8,6 +8,7 @@
   "scripts": {
     "start": "react-native start",
     "android": "react-native run-android",
+    "fix-android-build": "cd android && gradlew clean && cd ..",
     "ios": "react-native run-ios",
     "test": "node node_modules/jest/bin/jest.js"
   },
@@ -51,7 +52,6 @@
     "react-navigation-redux-helpers": "^1.0.3",
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
-    "redux-immutable-state-invariant": "^2.1.0",
     "redux-logger": "^3.0.6",
     "typescript-fsa": "^2.5.0",
     "typescript-fsa-reducers": "^0.4.5",

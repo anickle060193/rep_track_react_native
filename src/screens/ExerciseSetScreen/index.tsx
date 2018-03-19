@@ -25,7 +25,7 @@ type Props = PropsFromState & OwnProps;
 class ExerciseSetScreen extends React.Component<Props>
 {
   static navigationOptions: ScreenConfig<OwnProps> = ( { workout, exerciseIndex, setIndex } ) => ( {
-    title: `${workout.exercises[ exerciseIndex ].name}: Set ${setIndex} - ${formatWorkoutName( workout )}`
+    title: `${workout.exercises[ exerciseIndex ].name}: Set ${setIndex + 1} - ${formatWorkoutName( workout )}`
   } )
 
   render()

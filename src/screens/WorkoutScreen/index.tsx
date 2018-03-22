@@ -10,7 +10,7 @@ import OverflowMenu from '@components/OverflowMenu';
 import { setWorkoutEditing, navigateToExercise } from '@store/reducers/navigation';
 import { addExercise } from '@store/reducers/workouts';
 
-import { WorkoutsMap, Exercise, Workout, formatWorkoutName } from '@utils/workout';
+import { WorkoutsMap, Exercise, Workout } from '@utils/workout';
 import { isWorkoutRoute } from '@utils/routes';
 import { mapParamsToProps, ScreenConfig } from '@utils/navigation';
 
@@ -71,7 +71,7 @@ interface State
 class WorkoutScreen extends React.Component<Props, State>
 {
   static navigationOptions: ScreenConfig<OwnProps> = ( props ) => ( {
-    title: formatWorkoutName( props.workout ),
+    title: props.workout.name,
     headerRight: <ConnectedMenu editing={props.editing} />
   } )
 

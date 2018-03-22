@@ -7,7 +7,7 @@ import { navigateToExerciseSet } from '@store/reducers/navigation';
 import { range } from '@utils';
 import { isExerciseRoute } from '@utils/routes';
 import { ScreenConfig, mapParamsToProps } from '@utils/navigation';
-import { Workout, WorkoutsMap, Exercise, formatWorkoutName } from '@utils/workout';
+import { Workout, WorkoutsMap, Exercise } from '@utils/workout';
 
 interface PropsFromState
 {
@@ -30,7 +30,7 @@ type Props = PropsFromState & PropsFromDispatch & OwnProps;
 class ExerciseScreen extends React.Component<Props>
 {
   static navigationOptions: ScreenConfig<OwnProps> = ( { workout, exerciseIndex } ) => ( {
-    title: `${workout.exercises[ exerciseIndex ].name} - ${formatWorkoutName( workout )}`
+    title: `${workout.exercises[ exerciseIndex ].name} - ${workout.name}`
   } )
 
   render()

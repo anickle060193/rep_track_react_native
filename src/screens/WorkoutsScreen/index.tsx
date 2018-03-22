@@ -11,7 +11,7 @@ import Fab from '@components/Fab';
 import { removeWorkout, addWorkout } from '@store/reducers/workouts';
 import { navigateToWorkout, setWorkoutEditing } from '@store/reducers/navigation';
 
-import { Workout, WorkoutsMap, workoutsMapToArray, formatWorkoutName } from '@utils/workout';
+import { Workout, WorkoutsMap, workoutsMapToArray, getNewWorkoutName } from '@utils/workout';
 
 interface PropsFromState
 {
@@ -77,6 +77,7 @@ class WorkoutsScreen extends React.Component<Props>
   {
     let workout: Workout = {
       id: uuid(),
+      name: getNewWorkoutName(),
       date: new Date(),
       exercises: []
     };
@@ -118,7 +119,7 @@ const WorkoutListItem: React.SFC<{
   >
     <View style={styles.workoutListItem}>
       <Text style={styles.workoutListItemTitle}>
-        {formatWorkoutName( workout )}
+        {workout.name}
       </Text>
     </View>
   </TouchableNativeFeedback>

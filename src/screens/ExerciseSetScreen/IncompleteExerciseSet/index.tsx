@@ -99,7 +99,7 @@ class IncompleteExerciseSet extends React.Component<Props>
         type: 'workout',
         workout: {
           id: this.props.workout.id,
-          date: this.props.workout.date,
+          name: this.props.workout.name,
           exercises: this.props.workout.exercises.map( ( exercise ) => ( {
             name: exercise.name,
             sets: exercise.sets.map( ( set ) => ( {

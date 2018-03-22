@@ -6,7 +6,7 @@ import IncompleteExerciseSet from './IncompleteExerciseSet';
 
 import { mapParamsToProps, ScreenConfig } from '@utils/navigation';
 import { isExerciseSetRoute } from '@utils/routes';
-import { Workout, formatWorkoutName, WorkoutsMap } from '@utils/workout';
+import { Workout, WorkoutsMap } from '@utils/workout';
 
 interface PropsFromState
 {
@@ -25,7 +25,7 @@ type Props = PropsFromState & OwnProps;
 class ExerciseSetScreen extends React.Component<Props>
 {
   static navigationOptions: ScreenConfig<OwnProps> = ( { workout, exerciseIndex, setIndex } ) => ( {
-    title: `${workout.exercises[ exerciseIndex ].name}: Set ${setIndex + 1} - ${formatWorkoutName( workout )}`
+    title: `${workout.exercises[ exerciseIndex ].name}: Set ${setIndex + 1} - ${workout.name}`
   } )
 
   render()

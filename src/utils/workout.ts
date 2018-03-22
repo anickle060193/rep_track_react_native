@@ -19,6 +19,7 @@ export interface Exercise
 export interface Workout
 {
   id: string;
+  name: string;
   date: Date;
   exercises: Exercise[];
 }
@@ -40,9 +41,9 @@ export function workoutsArrayToMap( workouts: Workout[] )
   return workoutsMap;
 }
 
-export function formatWorkoutName( workout: Workout )
+export function getNewWorkoutName()
 {
-  return moment( workout.date ).format( 'L' );
+  return moment().format( 'L' );
 }
 
 export function createNewExercise( name: string, setCount: number, repCount: number, weight: number ): Exercise

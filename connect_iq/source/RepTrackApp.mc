@@ -24,11 +24,15 @@ class RepTrackApp extends App.AppBase
     // Return the initial view of your application here
     function getInitialView()
     {
-        return [ new RepTrackView(), new RepTrackDelegate() ];
+        return [ new MainView(), new MainDelegate() ];
     }
 
-	private function onPhoneAppMessage( data )
+	private function onPhoneAppMessage( message )
 	{
-		Sys.println( data.data );
+		Sys.println( message.data );
+		if( message.data has :type && message.data.type == "workout" )
+		{
+			Sys.println( "Message: " + message.data.workout );
+		}
 	}
 }

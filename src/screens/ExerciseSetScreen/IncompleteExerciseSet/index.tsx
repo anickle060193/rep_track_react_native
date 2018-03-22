@@ -95,7 +95,21 @@ class IncompleteExerciseSet extends React.Component<Props>
   {
     if( this.props.device )
     {
-      ConnectIQ.sendMessage( this.props.device.id, REP_TRACK_APP_ID, 'Hello Message' );
+      ConnectIQ.sendMessage( this.props.device.id, REP_TRACK_APP_ID, {
+        type: 'workout',
+        workout: {
+          id: this.props.workout.id,
+          date: this.props.workout.date,
+          exercises: this.props.workout.exercises.map( ( exercise ) => ( {
+            name: exercise.name,
+            sets: exercise.sets.map( ( set ) => ( {
+              completed: set.completed,
+              weight: set.weight,
+              repCount: set.repCount
+            } ) )
+          } ) )
+        }
+      } );
     }
   }
 

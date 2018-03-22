@@ -77,7 +77,7 @@ const SetListItem: React.SFC<{ setIndex: number, exercise: Exercise, onPress: ()
           exercise.sets[ setIndex ].completed ? styles.setListItemCompleted : {}
         ]}
       >
-        Set {setIndex + 1}: {exercise.repCount} reps @ {exercise.weight} lbs
+        Set {setIndex + 1}: {exercise.sets[ setIndex ].repCount} reps @ {exercise.sets[ setIndex ].weight} lbs
       </Text>
     </View>
   </TouchableNativeFeedback>
@@ -89,6 +89,7 @@ const styles = StyleSheet.create( {
   },
   setListItem: {
     flexDirection: 'row',
+    alignItems: 'center',
     padding: 16,
     backgroundColor: 'white',
     borderBottomColor: 'lightgray',

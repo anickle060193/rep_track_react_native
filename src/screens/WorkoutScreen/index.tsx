@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { Text, FlatList, StyleSheet, View, TouchableNativeFeedback } from 'react-native';
 
 import Fab from '@components/Fab';
-import EditButton from '@components/EditButton';
 import DoneButton from '@components/DoneButton';
 import NewExerciseModal from '@components/NewExerciseModal';
+import OverflowMenu from '@components/OverflowMenu';
 
 import { setWorkoutEditing, navigateToExercise } from '@store/reducers/navigation';
 import { addExercise } from '@store/reducers/workouts';
@@ -14,28 +14,33 @@ import { WorkoutsMap, Exercise, Workout, formatWorkoutName } from '@utils/workou
 import { isWorkoutRoute } from '@utils/routes';
 import { mapParamsToProps, ScreenConfig } from '@utils/navigation';
 
-interface EditButtonPropsFromDispatch
+interface MenuPropsFromDispatch
 {
   setWorkoutEditing: typeof setWorkoutEditing;
 }
 
-interface EditButtonOwnProps
+interface MenuOwnProps
 {
   editing: boolean;
 }
 
-type EditButtonProps = EditButtonPropsFromDispatch & EditButtonOwnProps;
+type MenuProps = MenuPropsFromDispatch & MenuOwnProps;
 
-const ConnectedEditButton = connect<{}, EditButtonPropsFromDispatch, EditButtonOwnProps, RootState>(
+const ConnectedMenu = connect<{}, MenuPropsFromDispatch, MenuOwnProps, RootState>(
   null,
   { setWorkoutEditing }
-)( ( props: EditButtonProps ) => (
+)( ( props: MenuProps ) => (
   props.editing ?
     (
       <DoneButton onPress={() => props.setWorkoutEditing( false )} />
     ) :
     (
-      <EditButton onPress={() => props.setWorkoutEditing( true )} />
+      <OverflowMenu
+        items={[
+          { text: 'Edit', onPress: () => props.setWorkoutEditing( true ) },
+          { text: 'Send to Watch', onPress: () => null }
+        ]}
+      />
     )
 ) );
 
@@ -67,7 +72,7 @@ class WorkoutScreen extends React.Component<Props, State>
 {
   static navigationOptions: ScreenConfig<OwnProps> = ( props ) => ( {
     title: formatWorkoutName( props.workout ),
-    headerRight: ( <ConnectedEditButton editing={props.editing} /> )
+    headerRight: <ConnectedMenu editing={props.editing} />
   } )
 
   constructor( props: Props )
@@ -143,13 +148,8 @@ const ExerciseListItem: React.SFC<{ exercise: Exercise, onPress: () => void }> =
     onPress={onPress}
   >
     <View style={styles.exerciseListItem}>
-      <View style={styles.excerciseListItemNameColumn}>
-        <Text style={styles.exerciseListItemName}>{exercise.name}</Text>
-      </View>
-      <View style={styles.exerciseListItemDetailsColumn}>
-        <Text style={styles.exerciseListItemDetail}>{exercise.setCount} sets</Text>
-        <Text style={styles.exerciseListItemDetail}>{exercise.repCount} reps</Text>
-      </View>
+      <Text style={styles.exerciseListItemName}>{exercise.name}</Text>
+      <Text style={styles.exerciseListItemDetail}>{exercise.sets.length} sets</Text>
     </View>
   </TouchableNativeFeedback>
 );
@@ -159,29 +159,19 @@ const styles = StyleSheet.create( {
     flex: 1
   },
   exerciseListItem: {
-    flex: 1,
     flexDirection: 'row',
-    padding: 8,
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: 'white',
     borderBottomColor: 'lightgray',
     borderBottomWidth: 1
   },
-  excerciseListItemNameColumn: {
-    flex: 1,
-    paddingLeft: 16,
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'center'
-  },
   exerciseListItemName: {
-    fontSize: 32
-  },
-  exerciseListItemDetailsColumn: {
-    flexDirection: 'column',
-    alignItems: 'flex-end',
-    paddingRight: 16
+    flex: 1,
+    fontSize: 24
   },
   exerciseListItemDetail: {
-    padding: 4,
+    paddingRight: 4,
     fontSize: 22
   }
 } );

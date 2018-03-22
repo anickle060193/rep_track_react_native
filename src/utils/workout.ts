@@ -2,23 +2,17 @@ import moment from 'moment';
 
 import { range } from '@utils';
 
-export interface ExerciseRep
-{
-  data: number[];
-}
-
 export interface ExerciseSet
 {
   completed: boolean;
-  reps: ExerciseRep[];
+  weight: number;
+  repCount: number;
+  data: {};
 }
 
 export interface Exercise
 {
   name: string;
-  setCount: number;
-  repCount: number;
-  weight: number;
   sets: ExerciseSet[];
 }
 
@@ -55,14 +49,11 @@ export function createNewExercise( name: string, setCount: number, repCount: num
 {
   return {
     name,
-    setCount,
-    repCount,
-    weight,
-    sets: range( setCount ).map( () => ( {
+    sets: range( setCount ).map<ExerciseSet>( () => ( {
       completed: false,
-      reps: range( repCount ).map( () => ( {
-        data: []
-      } ) )
+      weight,
+      repCount,
+      data: {}
     } ) )
   };
 }

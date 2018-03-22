@@ -19,8 +19,8 @@ const initialState: State = {
     id: id,
     date: new Date(),
     exercises: [
-      createNewExercise( 'Testing 2', 20, 20, 20 ),
-      createNewExercise( 'Testing', 1, 1, 20 )
+      createNewExercise( 'Squat', 10, 8, 236 ),
+      createNewExercise( 'Deadlift', 1, 1, 20 )
     ]
   };
   id = uuid();
@@ -28,8 +28,8 @@ const initialState: State = {
     id: id,
     date: new Date( 0 ),
     exercises: [
-      createNewExercise( 'Testing', 1, 1, 20 ),
-      createNewExercise( 'Testing 2', 20, 20, 20 )
+      createNewExercise( 'Clean', 1, 1, 20 ),
+      createNewExercise( 'Jerk', 9, 10, 196 )
     ]
   };
 }

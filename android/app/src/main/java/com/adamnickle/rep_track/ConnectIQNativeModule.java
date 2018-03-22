@@ -23,6 +23,8 @@ import javax.annotation.Nullable;
 
 public class ConnectIQNativeModule extends ReactContextBaseJavaModule
 {
+    private static final String EVENT_NAME_PREFIX = "com.adamnickle.rep_track.";
+
     private ConnectIQ mConnectIQ;
     private boolean mSdkReady;
 
@@ -80,7 +82,7 @@ public class ConnectIQNativeModule extends ReactContextBaseJavaModule
     {
         this.getReactApplicationContext()
             .getJSModule( DeviceEventManagerModule.RCTDeviceEventEmitter.class )
-            .emit( eventName, data );
+            .emit( EVENT_NAME_PREFIX + eventName, data );
     }
 
     @ReactMethod
@@ -99,7 +101,7 @@ public class ConnectIQNativeModule extends ReactContextBaseJavaModule
             {
                 mSdkReady = true;
 
-                ConnectIQNativeModule.this.emit( "connect-iq.sdk-ready", null );
+                ConnectIQNativeModule.this.emit( "sdk-ready", null );
 
                 promise.resolve( null );
             }
@@ -107,7 +109,7 @@ public class ConnectIQNativeModule extends ReactContextBaseJavaModule
             @Override
             public void onInitializeError( final ConnectIQ.IQSdkErrorStatus iqSdkErrorStatus )
             {
-                ConnectIQNativeModule.this.emit( "connect-iq.init-error", iqSdkErrorStatus );
+                ConnectIQNativeModule.this.emit( "init-error", iqSdkErrorStatus );
 
                 promise.reject( iqSdkErrorStatus.toString(), "Initialization error: " + iqSdkErrorStatus );
             }
@@ -118,7 +120,7 @@ public class ConnectIQNativeModule extends ReactContextBaseJavaModule
                 mSdkReady = false;
                 mConnectIQ = null;
 
-                ConnectIQNativeModule.this.emit( "connect-iq.sdk-shutdown", null );
+                ConnectIQNativeModule.this.emit( "sdk-shutdown", null );
             }
         } );
     }
@@ -237,7 +239,7 @@ public class ConnectIQNativeModule extends ReactContextBaseJavaModule
             @Override
             public void onMessageStatus( final IQDevice iqDevice, final IQApp iqApp, ConnectIQ.IQMessageStatus iqMessageStatus )
             {
-                ConnectIQNativeModule.this.emit( "MESSAGE_STATUS", iqMessageStatus.toString() );
+                ConnectIQNativeModule.this.emit( "message-status", iqMessageStatus.toString() );
             }
         } );
     }

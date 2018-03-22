@@ -1,0 +1,57 @@
+<layout id="Sets">
+    <label
+    	id="ExerciseName"
+   		x="center"
+   		y="top"
+   		text="Exercise Name"
+   		font="Gfx.FONT_LARGE"
+   		color="Gfx.COLOR_WHITE"
+   		justification="Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER"
+ 	/>
+    <label
+    	id="SetName"
+   		x="center"
+   		y="top"
+   		text="Set Name"
+   		font="Gfx.FONT_LARGE"
+   		color="Gfx.COLOR_WHITE"
+   		justification="Gfx.TEXT_JUSTIFY_CENTER | Gfx.TEXT_JUSTIFY_VCENTER"
+ 	/>
+ 	
+    <label
+    	id="RepsLabel"
+   		x="left"
+   		y="center"
+   		text="Reps:"
+   		color="Gfx.COLOR_WHITE"
+   		justification="Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER"
+ 	/>
+    <label
+    	id="RepCount"
+   		x="center"
+   		y="bottom"
+   		text="Rep Count"
+   		font="Gfx.FONT_NUMBER_MEDIUM"
+   		color="Gfx.COLOR_WHITE"
+   		justification="Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER"
+ 	/>
+ 	
+    <label
+    	id="WeightLabel"
+   		x="left"
+   		y="center"
+   		text="Weight:"
+   		color="Gfx.COLOR_WHITE"
+   		justification="Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER"
+ 	/>
+    <label
+    	id="Weight"
+   		x="center"
+   		y="bottom"
+   		text="120 what?"
+   		font="Gfx.FONT_NUMBER_MEDIUM"
+   		color="Gfx.COLOR_WHITE"
+   		justification="Gfx.TEXT_JUSTIFY_LEFT | Gfx.TEXT_JUSTIFY_VCENTER"
+ 	/>
+ 	
+</layout>

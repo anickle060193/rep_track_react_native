@@ -56,4 +56,15 @@ class WorkoutDelegate extends Ui.BehaviorDelegate
         
         _workoutView.setWorkoutName( _workout.get( "name" ) );
     }
+    
+    function onNextPage()
+    {
+    	var exercises = _workout.get( "exercises" );
+    	if( exercises.size() > 0 )
+    	{
+    		var exercisesView = new ExercisesView();
+    		Ui.pushView( exercisesView, new ExercisesDelegate( exercisesView, exercises ), Ui.SLIDE_LEFT );
+    	}
+    	return true;
+    }
 }
